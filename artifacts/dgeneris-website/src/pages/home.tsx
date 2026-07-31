@@ -374,7 +374,7 @@ export default function Home() {
             </motion.div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
-              {testimonials.map((testimonial, i) => (
+              {testimonials.slice(0, 6).map((testimonial, i) => (
                 <motion.div
                   key={testimonial.id}
                   initial="hidden"
@@ -421,6 +421,14 @@ export default function Home() {
                 </motion.div>
               ))}
             </div>
+
+            {testimonials.length > 6 && (
+              <div className="text-center mt-12">
+                <Button asChild size="lg" variant="outline" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground">
+                  <Link href="/results">SEE ALL {testimonials.length} REVIEWS</Link>
+                </Button>
+              </div>
+            )}
           </div>
         </section>
       )}
