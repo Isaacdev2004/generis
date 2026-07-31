@@ -11,7 +11,7 @@ export default function PrivacyPolicy() {
       <section className="bg-gradient-to-br from-primary to-secondary text-primary-foreground py-16">
         <div className="container mx-auto px-4 lg:px-8">
           <motion.div initial="hidden" animate="visible" variants={fadeInUp} className="max-w-3xl mx-auto text-center">
-            <h1 className="text-4xl font-bold mb-4" data-testid="text-privacy-hero-title">Privacy Policy</h1>
+            <h1 className="text-3xl sm:text-4xl font-bold mb-4" data-testid="text-privacy-hero-title">Privacy Policy</h1>
             <p className="text-primary-foreground/90">Last updated: January 2026</p>
           </motion.div>
         </div>

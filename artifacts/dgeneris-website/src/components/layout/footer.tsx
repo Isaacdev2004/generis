@@ -100,7 +100,7 @@ export function Footer() {
 
         <div className="border-t border-primary-foreground/20 pt-8 mb-8">
           <h4 className="font-semibold text-sm mb-4">Subscribe to Our Newsletter</h4>
-          <form onSubmit={handleSubscribe} className="flex gap-2 max-w-md">
+          <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-2 max-w-md">
             <Input
               type="email"
               placeholder="Enter your email"

@@ -128,7 +128,7 @@ export default function Contact() {
   return (
     <>
       {/* Hero */}
-      <section className="relative text-primary-foreground py-20 overflow-hidden">
+      <section className="relative text-primary-foreground py-12 sm:py-20 overflow-hidden">
         <img src="/stock/contact.jpg" alt="Professional consultant ready to help" className="absolute inset-0 w-full h-full object-cover" />
         <div className="absolute inset-0 bg-primary/88" />
         <div className="relative container mx-auto px-4 lg:px-8">
@@ -138,7 +138,7 @@ export default function Contact() {
             variants={fadeInUp}
             className="max-w-3xl mx-auto text-center"
           >
-            <h1 className="text-4xl lg:text-5xl font-bold mb-6" data-testid="text-contact-hero-title">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6" data-testid="text-contact-hero-title">
               Get In Touch
             </h1>
             <p className="text-lg text-primary-foreground/90">
@@ -149,13 +149,13 @@ export default function Contact() {
       </section>
 
       {/* Contact Form + Info */}
-      <section className="py-20 bg-background">
+      <section className="py-12 md:py-20 bg-background">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
             {/* Form */}
             <div className="lg:col-span-2">
               <Card>
-                <CardContent className="p-8">
+                <CardContent className="p-5 sm:p-8">
                   <h2 className="text-2xl font-bold mb-6" data-testid="text-enquiry-form-title">
                     Enquiry Form
                   </h2>

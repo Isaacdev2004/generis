@@ -97,7 +97,7 @@ export default function HowItWorks() {
   return (
     <>
       {/* Hero */}
-      <section className="relative text-primary-foreground py-20 overflow-hidden">
+      <section className="relative text-primary-foreground py-12 sm:py-20 overflow-hidden">
         <img src="/stock/process.jpg" alt="Business process and planning" className="absolute inset-0 w-full h-full object-cover" />
         <div className="absolute inset-0 bg-primary/88" />
         <div className="relative container mx-auto px-4 lg:px-8">
@@ -107,7 +107,7 @@ export default function HowItWorks() {
             variants={fadeInUp}
             className="max-w-3xl mx-auto text-center"
           >
-            <h1 className="text-4xl lg:text-5xl font-bold mb-6" data-testid="text-how-it-works-hero-title">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6" data-testid="text-how-it-works-hero-title">
               How It Works
             </h1>
             <p className="text-lg text-primary-foreground/90">
@@ -118,7 +118,7 @@ export default function HowItWorks() {
       </section>
 
       {/* Process Steps */}
-      <section className="py-20 bg-background">
+      <section className="py-12 md:py-20 bg-background">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="max-w-4xl mx-auto">
             <div className="space-y-8">
@@ -132,13 +132,13 @@ export default function HowItWorks() {
                   transition={{ duration: 0.5, delay: i * 0.05 }}
                 >
                   <Card className="hover:shadow-lg transition-shadow" data-testid={`card-process-step-${i}`}>
-                    <CardContent className="p-6">
-                      <div className="flex gap-4">
-                        <div className="flex-shrink-0 w-12 h-12 rounded-full bg-accent text-accent-foreground flex items-center justify-center font-bold text-lg">
+                    <CardContent className="p-4 sm:p-6">
+                      <div className="flex gap-3 sm:gap-4">
+                        <div className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-accent text-accent-foreground flex items-center justify-center font-bold text-base sm:text-lg">
                           {step.number}
                         </div>
-                        <div className="flex-1">
-                          <h3 className="font-bold text-lg mb-2">{step.title}</h3>
+                        <div className="flex-1 pt-1">
+                          <h3 className="font-bold text-base sm:text-lg mb-1 sm:mb-2">{step.title}</h3>
                           <p className="text-sm text-muted-foreground">{step.description}</p>
                         </div>
                       </div>
@@ -152,7 +152,7 @@ export default function HowItWorks() {
       </section>
 
       {/* Timeline */}
-      <section className="py-20 bg-muted/30">
+      <section className="py-12 md:py-20 bg-muted/30">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="max-w-4xl mx-auto">
             <motion.div
@@ -161,9 +161,9 @@ export default function HowItWorks() {
               viewport={{ once: true }}
               variants={fadeInUp}
             >
-              <div className="flex items-center gap-4 mb-8">
-                <Clock className="h-10 w-10 text-accent" />
-                <h2 className="text-3xl font-bold" data-testid="text-timeline-title">
+              <div className="flex items-center gap-3 mb-8">
+                <Clock className="h-8 w-8 sm:h-10 sm:w-10 text-accent flex-shrink-0" />
+                <h2 className="text-2xl sm:text-3xl font-bold" data-testid="text-timeline-title">
                   Typical Project Timeline
                 </h2>
               </div>
@@ -191,7 +191,7 @@ export default function HowItWorks() {
       </section>
 
       {/* Client Responsibilities */}
-      <section className="py-20 bg-background">
+      <section className="py-12 md:py-20 bg-background">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="max-w-4xl mx-auto">
             <motion.div
@@ -200,9 +200,9 @@ export default function HowItWorks() {
               viewport={{ once: true }}
               variants={fadeInUp}
             >
-              <div className="flex items-center gap-4 mb-8">
-                <Users className="h-10 w-10 text-accent" />
-                <h2 className="text-3xl font-bold" data-testid="text-responsibilities-title">
+              <div className="flex items-center gap-3 mb-8">
+                <Users className="h-8 w-8 sm:h-10 sm:w-10 text-accent flex-shrink-0" />
+                <h2 className="text-2xl sm:text-3xl font-bold" data-testid="text-responsibilities-title">
                   What We Need From You
                 </h2>
               </div>
@@ -227,7 +227,7 @@ export default function HowItWorks() {
       </section>
 
       {/* Confidentiality */}
-      <section className="py-20 bg-muted/30">
+      <section className="py-12 md:py-20 bg-muted/30">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="max-w-4xl mx-auto">
             <motion.div
@@ -236,9 +236,9 @@ export default function HowItWorks() {
               viewport={{ once: true }}
               variants={fadeInUp}
             >
-              <div className="flex items-center gap-4 mb-8">
-                <Shield className="h-10 w-10 text-accent" />
-                <h2 className="text-3xl font-bold" data-testid="text-confidentiality-title">
+              <div className="flex items-center gap-3 mb-8">
+                <Shield className="h-8 w-8 sm:h-10 sm:w-10 text-accent flex-shrink-0" />
+                <h2 className="text-2xl sm:text-3xl font-bold" data-testid="text-confidentiality-title">
                   Confidentiality Guarantee
                 </h2>
               </div>
@@ -255,7 +255,7 @@ export default function HowItWorks() {
       </section>
 
       {/* CTA */}
-      <section className="py-20 bg-primary text-primary-foreground">
+      <section className="py-12 md:py-20 bg-primary text-primary-foreground">
         <div className="container mx-auto px-4 lg:px-8 text-center">
           <motion.div
             initial="hidden"

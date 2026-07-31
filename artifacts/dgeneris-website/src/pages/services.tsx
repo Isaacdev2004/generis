@@ -87,7 +87,7 @@ export default function Services() {
   return (
     <>
       {/* Hero */}
-      <section className="relative text-primary-foreground py-20 overflow-hidden">
+      <section className="relative text-primary-foreground py-12 sm:py-20 overflow-hidden">
         <img src="/stock/services.jpg" alt="Professional bid writing documents" className="absolute inset-0 w-full h-full object-cover" />
         <div className="absolute inset-0 bg-primary/88" />
         <div className="relative container mx-auto px-4 lg:px-8">
@@ -97,7 +97,7 @@ export default function Services() {
             variants={fadeInUp}
             className="max-w-3xl mx-auto text-center"
           >
-            <h1 className="text-4xl lg:text-5xl font-bold mb-6" data-testid="text-services-hero-title">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6" data-testid="text-services-hero-title">
               Our Bid & Tender Services
             </h1>
             <p className="text-lg text-primary-foreground/90">
@@ -108,7 +108,7 @@ export default function Services() {
       </section>
 
       {/* Services List */}
-      <section className="py-20 bg-background">
+      <section className="py-12 md:py-20 bg-background">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="max-w-5xl mx-auto space-y-8">
             {SERVICES.map((service, i) => (
@@ -155,7 +155,7 @@ export default function Services() {
       </section>
 
       {/* CTA */}
-      <section className="py-20 bg-muted/30">
+      <section className="py-12 md:py-20 bg-muted/30">
         <div className="container mx-auto px-4 lg:px-8 text-center">
           <motion.div
             initial="hidden"

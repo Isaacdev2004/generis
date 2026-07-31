@@ -85,7 +85,7 @@ export default function Pricing() {
   return (
     <>
       {/* Hero */}
-      <section className="relative text-primary-foreground py-20 overflow-hidden">
+      <section className="relative text-primary-foreground py-12 sm:py-20 overflow-hidden">
         <img src="/stock/pricing.jpg" alt="Clear transparent pricing" className="absolute inset-0 w-full h-full object-cover" />
         <div className="absolute inset-0 bg-primary/88" />
         <div className="relative container mx-auto px-4 lg:px-8">
@@ -95,7 +95,7 @@ export default function Pricing() {
             variants={fadeInUp}
             className="max-w-3xl mx-auto text-center"
           >
-            <h1 className="text-4xl lg:text-5xl font-bold mb-6" data-testid="text-pricing-hero-title">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6" data-testid="text-pricing-hero-title">
               Transparent Pricing
             </h1>
             <p className="text-lg text-primary-foreground/90">
@@ -106,7 +106,7 @@ export default function Pricing() {
       </section>
 
       {/* Packages */}
-      <section className="py-20 bg-background">
+      <section className="py-12 md:py-20 bg-background">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
             {PACKAGES.map((pkg, i) => (
@@ -160,7 +160,7 @@ export default function Pricing() {
       </section>
 
       {/* Add-Ons */}
-      <section className="py-20 bg-muted/30">
+      <section className="py-12 md:py-20 bg-muted/30">
         <div className="container mx-auto px-4 lg:px-8">
           <motion.div
             initial="hidden"
@@ -189,7 +189,7 @@ export default function Pricing() {
       </section>
 
       {/* Pricing Notes */}
-      <section className="py-20 bg-background">
+      <section className="py-12 md:py-20 bg-background">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="max-w-4xl mx-auto">
             <motion.div
@@ -231,7 +231,7 @@ export default function Pricing() {
       </section>
 
       {/* CTA */}
-      <section className="py-20 bg-primary text-primary-foreground">
+      <section className="py-12 md:py-20 bg-primary text-primary-foreground">
         <div className="container mx-auto px-4 lg:px-8 text-center">
           <motion.div
             initial="hidden"

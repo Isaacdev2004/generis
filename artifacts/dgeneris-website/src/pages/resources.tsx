@@ -39,7 +39,7 @@ export default function Resources() {
   return (
     <>
       {/* Hero */}
-      <section className="bg-gradient-to-br from-primary to-secondary text-primary-foreground py-20">
+      <section className="bg-gradient-to-br from-primary to-secondary text-primary-foreground py-12 sm:py-20">
         <div className="container mx-auto px-4 lg:px-8">
           <motion.div
             initial="hidden"
@@ -47,7 +47,7 @@ export default function Resources() {
             variants={fadeInUp}
             className="max-w-3xl mx-auto text-center"
           >
-            <h1 className="text-4xl lg:text-5xl font-bold mb-6" data-testid="text-resources-hero-title">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6" data-testid="text-resources-hero-title">
               Resources & Insights
             </h1>
             <p className="text-lg text-primary-foreground/90">
@@ -92,7 +92,7 @@ export default function Resources() {
       </section>
 
       {/* Blog Posts */}
-      <section className="py-20 bg-background">
+      <section className="py-12 md:py-20 bg-background">
         <div className="container mx-auto px-4 lg:px-8">
           {isLoading ? (
             <div className="text-center text-muted-foreground" data-testid="text-resources-loading">

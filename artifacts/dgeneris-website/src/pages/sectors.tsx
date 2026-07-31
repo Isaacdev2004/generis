@@ -35,7 +35,7 @@ export default function Sectors() {
   return (
     <>
       {/* Hero */}
-      <section className="relative text-primary-foreground py-20 overflow-hidden">
+      <section className="relative text-primary-foreground py-12 sm:py-20 overflow-hidden">
         <img src="/stock/london.jpg" alt="London city skyline" className="absolute inset-0 w-full h-full object-cover" />
         <div className="absolute inset-0 bg-primary/88" />
         <div className="relative container mx-auto px-4 lg:px-8">
@@ -45,7 +45,7 @@ export default function Sectors() {
             variants={fadeInUp}
             className="max-w-3xl mx-auto text-center"
           >
-            <h1 className="text-4xl lg:text-5xl font-bold mb-6" data-testid="text-sectors-hero-title">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6" data-testid="text-sectors-hero-title">
               Sectors We Support
             </h1>
             <p className="text-lg text-primary-foreground/90">
@@ -74,7 +74,7 @@ export default function Sectors() {
       </section>
 
       {/* Health & Social Care */}
-      <section className="py-20 bg-muted/30">
+      <section className="py-12 md:py-20 bg-muted/30">
         <div className="container mx-auto px-4 lg:px-8">
           <motion.div
             initial="hidden"
@@ -105,7 +105,7 @@ export default function Sectors() {
             </div>
 
             <Card className="mb-8">
-              <CardContent className="p-8">
+              <CardContent className="p-5 sm:p-8">
                 <h3 className="font-semibold text-lg mb-4">Types of Care Providers We Support:</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   {CARE_SERVICES.map((service, i) => (
@@ -119,7 +119,7 @@ export default function Sectors() {
             </Card>
 
             <Card className="mb-8">
-              <CardContent className="p-8">
+              <CardContent className="p-5 sm:p-8">
                 <h3 className="font-semibold text-lg mb-4">What We Understand About Care Procurement:</h3>
                 <div className="space-y-3 text-sm text-muted-foreground">
                   <p>
@@ -148,7 +148,7 @@ export default function Sectors() {
       </section>
 
       {/* Cleaning Services */}
-      <section className="py-20 bg-background">
+      <section className="py-12 md:py-20 bg-background">
         <div className="container mx-auto px-4 lg:px-8">
           <motion.div
             initial="hidden"
@@ -179,7 +179,7 @@ export default function Sectors() {
             </div>
 
             <Card className="mb-8">
-              <CardContent className="p-8">
+              <CardContent className="p-5 sm:p-8">
                 <h3 className="font-semibold text-lg mb-4">Types of Cleaning Businesses We Support:</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   {CLEANING_SERVICES.map((service, i) => (
@@ -193,7 +193,7 @@ export default function Sectors() {
             </Card>
 
             <Card className="mb-8">
-              <CardContent className="p-8">
+              <CardContent className="p-5 sm:p-8">
                 <h3 className="font-semibold text-lg mb-4">What We Understand About Cleaning Procurement:</h3>
                 <div className="space-y-3 text-sm text-muted-foreground">
                   <p>
@@ -222,7 +222,7 @@ export default function Sectors() {
       </section>
 
       {/* Why Sector Focus Matters */}
-      <section className="py-20 bg-muted/30">
+      <section className="py-12 md:py-20 bg-muted/30">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="max-w-4xl mx-auto">
             <motion.div

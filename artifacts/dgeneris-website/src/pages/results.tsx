@@ -62,7 +62,7 @@ export default function Results() {
   return (
     <>
       {/* Hero */}
-      <section className="relative text-primary-foreground py-20 overflow-hidden">
+      <section className="relative text-primary-foreground py-12 sm:py-20 overflow-hidden">
         <img src="/stock/handshake.jpg" alt="Business professionals celebrating a contract win" className="absolute inset-0 w-full h-full object-cover" />
         <div className="absolute inset-0 bg-primary/88" />
         <div className="relative container mx-auto px-4 lg:px-8">
@@ -72,7 +72,7 @@ export default function Results() {
             variants={fadeInUp}
             className="max-w-3xl mx-auto text-center"
           >
-            <h1 className="text-4xl lg:text-5xl font-bold mb-6" data-testid="text-results-hero-title">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6" data-testid="text-results-hero-title">
               Our Results
             </h1>
             <p className="text-lg text-primary-foreground/90">
@@ -96,7 +96,7 @@ export default function Results() {
                 transition={{ duration: 0.5, delay: i * 0.1 }}
               >
                 <Card className="text-center" data-testid={`card-stat-${i}`}>
-                  <CardContent className="p-8">
+                  <CardContent className="p-5 sm:p-8">
                     <stat.icon className="h-12 w-12 text-accent mx-auto mb-4" />
                     <div className="text-4xl font-bold text-primary mb-2">{stat.value}</div>
                     <div className="text-sm text-muted-foreground">{stat.label}</div>
@@ -124,7 +124,7 @@ export default function Results() {
       </section>
 
       {/* ── VERIFIED CONTRACT WINS ── */}
-      <section className="py-20 bg-background">
+      <section className="py-12 md:py-20 bg-background">
         <div className="container mx-auto px-4 lg:px-8">
           <motion.div
             initial="hidden"
@@ -156,7 +156,7 @@ export default function Results() {
                 transition={{ duration: 0.5, delay: i * 0.15 }}
               >
                 <Card className="h-full border-2 border-emerald-200 hover:border-emerald-400 hover:shadow-lg transition-all">
-                  <CardContent className="p-8">
+                  <CardContent className="p-5 sm:p-8">
                     {/* Header */}
                     <div className="flex items-start justify-between gap-4 mb-6">
                       <div>
@@ -224,7 +224,7 @@ export default function Results() {
       </section>
 
       {/* Case Studies */}
-      <section className="py-20 bg-muted/30">
+      <section className="py-12 md:py-20 bg-muted/30">
         <div className="container mx-auto px-4 lg:px-8">
           <motion.div
             initial="hidden"
@@ -308,7 +308,7 @@ export default function Results() {
 
       {/* All Testimonials */}
       {testimonials.length > 0 && (
-        <section className="py-20 bg-background">
+        <section className="py-12 md:py-20 bg-background">
           <div className="container mx-auto px-4 lg:px-8">
             <motion.div
               initial="hidden"

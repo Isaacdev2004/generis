@@ -280,7 +280,7 @@ export default function Home() {
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 bg-background">
+      <section className="py-10 md:py-16 bg-background">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
             {STATS.map((stat, i) => (
@@ -306,7 +306,7 @@ export default function Home() {
       </section>
 
       {/* Problem vs Solution */}
-      <section className="py-20 bg-muted/30">
+      <section className="py-12 md:py-20 bg-muted/30">
         <div className="container mx-auto px-4 lg:px-8">
           <motion.div
             initial="hidden"
@@ -398,7 +398,7 @@ export default function Home() {
       </section>
 
       {/* Why Choose Dgeneris */}
-      <section className="py-20 bg-background">
+      <section className="py-12 md:py-20 bg-background">
         <div className="container mx-auto px-4 lg:px-8">
           <motion.div
             initial="hidden"
@@ -446,7 +446,7 @@ export default function Home() {
       </section>
 
       {/* Services Overview */}
-      <section className="py-20 bg-background">
+      <section className="py-12 md:py-20 bg-background">
         <div className="container mx-auto px-4 lg:px-8">
           <motion.div
             initial="hidden"
@@ -496,7 +496,7 @@ export default function Home() {
       </section>
 
       {/* Who We Support */}
-      <section className="py-20 bg-background">
+      <section className="py-12 md:py-20 bg-background">
         <div className="container mx-auto px-4 lg:px-8">
           <motion.div
             initial="hidden"
@@ -572,7 +572,7 @@ export default function Home() {
       </section>
 
       {/* How It Works Preview */}
-      <section className="py-20 bg-muted/30">
+      <section className="py-12 md:py-20 bg-muted/30">
         <div className="container mx-auto px-4 lg:px-8">
           <motion.div
             initial="hidden"
@@ -624,7 +624,7 @@ export default function Home() {
 
       {/* Testimonials */}
       {testimonials.length > 0 && (
-        <section className="py-20 bg-muted/30">
+        <section className="py-12 md:py-20 bg-muted/30">
           <div className="container mx-auto px-4 lg:px-8">
             <motion.div
               initial="hidden"
@@ -702,7 +702,7 @@ export default function Home() {
       )}
 
       {/* Final CTA */}
-      <section className="py-20 bg-primary text-primary-foreground">
+      <section className="py-12 md:py-20 bg-primary text-primary-foreground">
         <div className="container mx-auto px-4 lg:px-8 text-center">
           <motion.div
             initial="hidden"
