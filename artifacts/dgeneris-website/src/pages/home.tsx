@@ -106,8 +106,14 @@ export default function Home() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-primary via-primary to-secondary text-primary-foreground py-20 lg:py-32">
-        <div className="container mx-auto px-4 lg:px-8">
+      <section className="relative text-primary-foreground py-20 lg:py-32 overflow-hidden">
+        <img
+          src="/stock/hero.jpg"
+          alt="Professional business meeting"
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-primary/85" />
+        <div className="relative container mx-auto px-4 lg:px-8">
           <motion.div
             initial="hidden"
             animate="visible"
@@ -240,7 +246,10 @@ export default function Home() {
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-            <Card className="hover:shadow-lg transition-all" data-testid="card-sector-care">
+            <Card className="hover:shadow-lg transition-all overflow-hidden" data-testid="card-sector-care">
+              <div className="h-48 overflow-hidden">
+                <img src="/stock/care.jpg" alt="Care worker supporting a client" className="w-full h-full object-cover" />
+              </div>
               <CardContent className="p-8">
                 <h3 className="font-bold text-2xl mb-4 text-primary">Health & Social Care</h3>
                 <ul className="space-y-2">
@@ -261,7 +270,10 @@ export default function Home() {
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-lg transition-all" data-testid="card-sector-cleaning">
+            <Card className="hover:shadow-lg transition-all overflow-hidden" data-testid="card-sector-cleaning">
+              <div className="h-48 overflow-hidden">
+                <img src="/stock/cleaning.jpg" alt="Professional commercial cleaning" className="w-full h-full object-cover" />
+              </div>
               <CardContent className="p-8">
                 <h3 className="font-bold text-2xl mb-4 text-primary">Cleaning Services</h3>
                 <ul className="space-y-2">

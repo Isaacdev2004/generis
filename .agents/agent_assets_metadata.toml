@@ -1,0 +1,26 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "d6SWVNKZVkkb6uDCqw90y"
+uri = "file://artifacts/dgeneris-website/public/stock/hero_a.jpg"
+type = "image"
+title = "Option A — UK Government / London"
+
+[[outputs]]
+id = "bdc_IO5CKVSK8HxS0EMQR"
+uri = "file://artifacts/dgeneris-website/public/stock/hero_b.jpg"
+type = "image"
+title = "Option B — Contract Signing / Documents"
+
+[[outputs]]
+id = "kBrS24g29nOXOlGP18jLq"
+uri = "file://artifacts/dgeneris-website/public/stock/hero_c.jpg"
+type = "image"
+title = "Option C — Professional Office Meeting"
+
+[[outputs]]
+id = "rmOCmHsvNcMiHmITmEm2a"
+uri = "file://artifacts/dgeneris-website/public/stock/hero_d.jpg"
+type = "image"
+title = "Option D — Modern Business Office"

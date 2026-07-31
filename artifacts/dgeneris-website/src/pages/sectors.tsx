@@ -81,15 +81,24 @@ export default function Sectors() {
             variants={fadeInUp}
             className="max-w-5xl mx-auto"
           >
-            <div className="flex items-center gap-4 mb-8">
-              <div className="w-16 h-16 bg-accent/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                <Heart className="h-8 w-8 text-accent" />
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center mb-10">
+              <div className="rounded-xl overflow-hidden shadow-lg">
+                <img
+                  src="/stock/care.jpg"
+                  alt="Care worker supporting a client at home"
+                  className="w-full h-64 object-cover"
+                />
               </div>
-              <div>
-                <h2 className="text-3xl font-bold" data-testid="text-sector-care-title">
-                  Health & Social Care
-                </h2>
-                <p className="text-muted-foreground">Supporting care providers to win local authority and NHS contracts</p>
+              <div className="flex items-start gap-4">
+                <div className="w-14 h-14 bg-accent/10 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
+                  <Heart className="h-7 w-7 text-accent" />
+                </div>
+                <div>
+                  <h2 className="text-3xl font-bold mb-2" data-testid="text-sector-care-title">
+                    Health & Social Care
+                  </h2>
+                  <p className="text-muted-foreground">Supporting care providers to win local authority and NHS contracts</p>
+                </div>
               </div>
             </div>
 
@@ -146,15 +155,24 @@ export default function Sectors() {
             variants={fadeInUp}
             className="max-w-5xl mx-auto"
           >
-            <div className="flex items-center gap-4 mb-8">
-              <div className="w-16 h-16 bg-accent/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                <Sparkles className="h-8 w-8 text-accent" />
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center mb-10">
+              <div className="flex items-start gap-4">
+                <div className="w-14 h-14 bg-accent/10 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
+                  <Sparkles className="h-7 w-7 text-accent" />
+                </div>
+                <div>
+                  <h2 className="text-3xl font-bold mb-2" data-testid="text-sector-cleaning-title">
+                    Cleaning Services
+                  </h2>
+                  <p className="text-muted-foreground">Helping cleaning businesses secure public-sector facilities contracts</p>
+                </div>
               </div>
-              <div>
-                <h2 className="text-3xl font-bold" data-testid="text-sector-cleaning-title">
-                  Cleaning Services
-                </h2>
-                <p className="text-muted-foreground">Helping cleaning businesses secure public-sector facilities contracts</p>
+              <div className="rounded-xl overflow-hidden shadow-lg">
+                <img
+                  src="/stock/cleaning.jpg"
+                  alt="Professional commercial cleaning team"
+                  className="w-full h-64 object-cover"
+                />
               </div>
             </div>
 

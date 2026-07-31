@@ -67,6 +67,21 @@ export default function Results() {
         </div>
       </section>
 
+      {/* Success Image Banner */}
+      <section className="relative h-64 overflow-hidden">
+        <img
+          src="/stock/success.jpg"
+          alt="Business professionals celebrating a contract win"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-primary/70 flex items-center justify-center">
+          <div className="text-center text-primary-foreground px-4">
+            <p className="text-2xl lg:text-3xl font-bold">"Every winning bid starts with the right support."</p>
+            <p className="mt-2 text-primary-foreground/80">— Dgeneris Bid & Tender Solutions</p>
+          </div>
+        </div>
+      </section>
+
       {/* Case Studies */}
       <section className="py-20 bg-muted/30">
         <div className="container mx-auto px-4 lg:px-8">

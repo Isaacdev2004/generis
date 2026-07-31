@@ -120,7 +120,19 @@ export default function Resources() {
                   transition={{ duration: 0.5, delay: i * 0.05 }}
                 >
                   <Link href={`/resources/${post.slug}`} data-testid={`link-blog-post-${post.id}`}>
-                    <Card className="h-full hover:shadow-lg transition-all hover:border-primary/50 cursor-pointer">
+                    <Card className="h-full hover:shadow-lg transition-all hover:border-primary/50 cursor-pointer overflow-hidden">
+                      <div className="h-44 overflow-hidden bg-muted">
+                        <img
+                          src={
+                            post.category === 'Care Sector' ? '/stock/care.jpg' :
+                            post.category === 'Cleaning Sector' ? '/stock/cleaning.jpg' :
+                            post.category === 'Bid Writing' ? '/stock/bidwrite.jpg' :
+                            '/stock/blog.jpg'
+                          }
+                          alt={post.title}
+                          className="w-full h-full object-cover transition-transform hover:scale-105 duration-300"
+                        />
+                      </div>
                       <CardContent className="p-6">
                         {post.category && (
                           <div className="inline-flex items-center gap-1 text-xs font-medium text-accent mb-3">

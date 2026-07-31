@@ -55,28 +55,44 @@ export default function About() {
       {/* Our Story */}
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4 lg:px-8">
-          <div className="max-w-4xl mx-auto">
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeInUp}
-            >
-              <h2 className="text-3xl font-bold mb-6 text-primary" data-testid="text-our-story-title">
-                Our Story
-              </h2>
-              <div className="prose prose-lg max-w-none">
-                <p className="text-muted-foreground leading-relaxed mb-4">
-                  Dgeneris Bid & Tender Solutions was founded to bridge a critical gap in the UK public procurement landscape. We saw capable, experienced care providers and cleaning businesses repeatedly losing out on public-sector contracts — not because they lacked quality or expertise, but because they struggled with the complex, time-consuming tendering process.
-                </p>
-                <p className="text-muted-foreground leading-relaxed mb-4">
-                  Public procurement in the UK demands precise compliance, strategic positioning, and persuasive communication. For busy business owners running care homes, domiciliary services, or cleaning operations, finding the time and expertise to craft winning tender responses is a significant barrier.
-                </p>
-                <p className="text-muted-foreground leading-relaxed">
-                  We exist to remove that barrier. Our consultancy brings professional bid-writing expertise, sector knowledge, and a proven process to businesses ready to compete for — and win — public contracts.
-                </p>
-              </div>
-            </motion.div>
+          <div className="max-w-6xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+              <motion.div
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={fadeInUp}
+              >
+                <h2 className="text-3xl font-bold mb-6 text-primary" data-testid="text-our-story-title">
+                  Our Story
+                </h2>
+                <div className="prose prose-lg max-w-none">
+                  <p className="text-muted-foreground leading-relaxed mb-4">
+                    Dgeneris Bid & Tender Solutions was founded to bridge a critical gap in the UK public procurement landscape. We saw capable, experienced care providers and cleaning businesses repeatedly losing out on public-sector contracts — not because they lacked quality or expertise, but because they struggled with the complex, time-consuming tendering process.
+                  </p>
+                  <p className="text-muted-foreground leading-relaxed mb-4">
+                    Public procurement in the UK demands precise compliance, strategic positioning, and persuasive communication. For busy business owners running care homes, domiciliary services, or cleaning operations, finding the time and expertise to craft winning tender responses is a significant barrier.
+                  </p>
+                  <p className="text-muted-foreground leading-relaxed">
+                    We exist to remove that barrier. Our consultancy brings professional bid-writing expertise, sector knowledge, and a proven process to businesses ready to compete for — and win — public contracts.
+                  </p>
+                </div>
+              </motion.div>
+              <motion.div
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={fadeInUp}
+                transition={{ delay: 0.2 }}
+                className="rounded-xl overflow-hidden shadow-lg"
+              >
+                <img
+                  src="/stock/team.jpg"
+                  alt="Professional team collaborating"
+                  className="w-full h-80 object-cover"
+                />
+              </motion.div>
+            </div>
           </div>
         </div>
       </section>
