@@ -155,7 +155,7 @@ export default function Home() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative text-primary-foreground py-20 lg:py-32 overflow-hidden">
+      <section className="relative text-primary-foreground py-12 sm:py-20 lg:py-32 overflow-hidden">
         <img
           src="/stock/hero.jpg"
           alt="Professional business meeting"
@@ -186,7 +186,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.15 }}
-              className="text-4xl lg:text-6xl font-bold mb-6 leading-tight"
+              className="text-3xl sm:text-4xl lg:text-6xl font-bold mb-6 leading-tight"
               data-testid="text-hero-title"
             >
               Stop Losing Contracts to{' '}
@@ -231,16 +231,16 @@ export default function Home() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.65 }}
-              className="flex flex-wrap justify-center gap-4 mt-10"
+              className="grid grid-cols-3 gap-3 mt-8"
             >
               {[
                 { num: 50, suffix: '+', label: 'Bids Submitted' },
-                { num: 2, suffix: '', label: 'Verified Contract Wins' },
-                { num: 90, suffix: '%', label: 'Repeat & Referral Clients' },
+                { num: 2, suffix: '', label: 'Contract Wins' },
+                { num: 90, suffix: '%', label: 'Repeat Clients' },
               ].map((stat) => (
-                <div key={stat.label} className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl px-6 py-4 text-center min-w-[130px]">
-                  <CountUp to={stat.num} suffix={stat.suffix} className="text-2xl font-bold text-accent block" />
-                  <div className="text-xs text-primary-foreground/80 mt-1">{stat.label}</div>
+                <div key={stat.label} className="bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl px-3 py-4 text-center">
+                  <CountUp to={stat.num} suffix={stat.suffix} className="text-xl sm:text-2xl font-bold text-accent block" />
+                  <div className="text-xs text-primary-foreground/80 mt-1 leading-tight">{stat.label}</div>
                 </div>
               ))}
             </motion.div>
@@ -293,7 +293,7 @@ export default function Home() {
                 transition={{ duration: 0.5, delay: i * 0.1 }}
                 className="text-center"
               >
-                <div className="text-4xl lg:text-5xl font-bold text-primary mb-2" data-testid={`text-stat-value-${i}`}>
+                <div className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary mb-2" data-testid={`text-stat-value-${i}`}>
                   <CountUp to={stat.num} suffix={stat.suffix} />
                 </div>
                 <div className="text-sm text-muted-foreground" data-testid={`text-stat-label-${i}`}>
@@ -302,9 +302,6 @@ export default function Home() {
               </motion.div>
             ))}
           </div>
-          <p className="text-xs text-muted-foreground text-center mt-8">
-            *These are placeholder statistics for demonstration purposes. Actual results vary by client and contract type.
-          </p>
         </div>
       </section>
 
@@ -602,14 +599,14 @@ export default function Home() {
                   viewport={{ once: true }}
                   variants={fadeInUp}
                   transition={{ duration: 0.5, delay: i * 0.1 }}
-                  className="flex gap-4"
+                  className="flex gap-3 sm:gap-4"
                   data-testid={`card-process-step-${i}`}
                 >
-                  <div className="flex-shrink-0 w-12 h-12 rounded-full bg-accent text-accent-foreground flex items-center justify-center font-bold text-lg">
+                  <div className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-accent text-accent-foreground flex items-center justify-center font-bold text-base sm:text-lg">
                     {i + 1}
                   </div>
-                  <div>
-                    <h3 className="font-semibold text-lg mb-1">{step.title}</h3>
+                  <div className="pt-1">
+                    <h3 className="font-semibold text-base sm:text-lg mb-1">{step.title}</h3>
                     <p className="text-sm text-muted-foreground">{step.description}</p>
                   </div>
                 </motion.div>
