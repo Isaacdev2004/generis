@@ -1,7 +1,8 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
-import { Route, Switch, Router as WouterRouter } from 'wouter';
+import { Route, Switch, Router as WouterRouter, useLocation } from 'wouter';
+import { AnimatePresence, motion } from 'framer-motion';
 import { PageWrapper } from '@/components/layout/page-wrapper';
 
 import Home from '@/pages/home';
@@ -33,6 +34,23 @@ import RefundPolicy from '@/pages/refund-policy';
 import NotFound from '@/pages/not-found';
 
 const queryClient = new QueryClient();
+
+function AnimatedSwitch() {
+  const [location] = useLocation();
+  return (
+    <AnimatePresence mode="wait">
+      <motion.div
+        key={location}
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.2, ease: 'easeOut' }}
+      >
+        <Router />
+      </motion.div>
+    </AnimatePresence>
+  );
+}
 
 function Router() {
   return (
@@ -82,7 +100,7 @@ function App() {
       <TooltipProvider>
         <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, '')}>
           <PageWrapper>
-            <Router />
+            <AnimatedSwitch />
           </PageWrapper>
         </WouterRouter>
         <Toaster />

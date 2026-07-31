@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'wouter';
 import { Menu } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 
@@ -20,9 +21,20 @@ const NAV_LINKS = [
 export function Navbar() {
   const [location] = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header
+      className={`sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 transition-shadow duration-300 ${
+        scrolled ? 'shadow-md' : 'shadow-none'
+      }`}
+    >
       <div className="container mx-auto px-4 xl:px-8">
         <div className="flex h-16 items-center justify-between gap-4">
           {/* Logo */}
@@ -33,18 +45,25 @@ export function Navbar() {
           {/* Desktop nav — visible from md (768 px) upward */}
           <nav className="hidden md:flex items-center gap-x-1 lg:gap-x-3 xl:gap-x-5 flex-1 justify-center" data-testid="nav-desktop">
             {NAV_LINKS.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`whitespace-nowrap text-xs lg:text-sm font-medium transition-colors hover:text-primary px-1 py-1 rounded ${
-                  location === link.href
-                    ? 'text-primary'
-                    : 'text-foreground/80'
-                }`}
-                data-testid={`link-nav-${link.label.toLowerCase().replace(/\s+/g, '-')}`}
-              >
-                {link.label}
-              </Link>
+              <div key={link.href} className="relative py-1">
+                <Link
+                  href={link.href}
+                  className={`whitespace-nowrap text-xs lg:text-sm font-medium transition-colors hover:text-primary px-1 py-1 block ${
+                    location === link.href ? 'text-primary' : 'text-foreground/80'
+                  }`}
+                  data-testid={`link-nav-${link.label.toLowerCase().replace(/\s+/g, '-')}`}
+                >
+                  {link.label}
+                </Link>
+                {location === link.href && (
+                  <motion.div
+                    layoutId="nav-active-indicator"
+                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary rounded-full"
+                    initial={false}
+                    transition={{ type: 'spring', bounce: 0.2, duration: 0.4 }}
+                  />
+                )}
+              </div>
             ))}
           </nav>
 

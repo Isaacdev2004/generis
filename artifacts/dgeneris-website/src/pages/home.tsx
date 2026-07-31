@@ -1,5 +1,6 @@
 import { Link } from 'wouter';
 import { motion } from 'framer-motion';
+import { CountUp } from '@/components/ui/count-up';
 import {
   FileSearch,
   FileEdit,
@@ -84,10 +85,10 @@ const TRUST_BADGES = [
 ];
 
 const STATS = [
-  { value: '100+', label: 'Tender Opportunities Reviewed' },
-  { value: '50+', label: 'Bid Submissions Supported' },
-  { value: '2', label: 'Specialist Sectors' },
-  { value: '90%', label: 'Repeat & Referral Clients' },
+  { num: 100, suffix: '+', label: 'Tender Opportunities Reviewed' },
+  { num: 50, suffix: '+', label: 'Bid Submissions Supported' },
+  { num: 2, suffix: '', label: 'Specialist Sectors' },
+  { num: 90, suffix: '%', label: 'Repeat & Referral Clients' },
 ];
 
 const PROCESS_STEPS = [
@@ -137,6 +138,16 @@ const fadeInUp = {
   visible: { opacity: 1, y: 0 },
 };
 
+const containerVariants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.1 } },
+};
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 28 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+};
+
 export default function Home() {
   const { data: testimonials = [] } = useListTestimonials();
   const { data: caseStudies = [] } = useListCaseStudies();
@@ -152,32 +163,88 @@ export default function Home() {
         />
         <div className="absolute inset-0 bg-primary/85" />
         <div className="relative container mx-auto px-4 lg:px-8">
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={fadeInUp}
-            transition={{ duration: 0.6 }}
-            className="max-w-4xl mx-auto text-center"
-          >
-            <h1 className="text-4xl lg:text-6xl font-bold mb-6 leading-tight" data-testid="text-hero-title">
+          <div className="max-w-4xl mx-auto text-center">
+            {/* Social proof badge */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0 }}
+            >
+              <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 mb-8">
+                <div className="flex">
+                  {[1,2,3,4,5].map(n => (
+                    <Star key={n} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                  ))}
+                </div>
+                <span className="text-sm font-medium text-primary-foreground/90">
+                  Trusted by care &amp; cleaning businesses across the UK
+                </span>
+              </div>
+            </motion.div>
+
+            <motion.h1
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.15 }}
+              className="text-4xl lg:text-6xl font-bold mb-6 leading-tight"
+              data-testid="text-hero-title"
+            >
               Stop Losing Contracts to{' '}
               <span className="text-accent">Better-Written Bids</span>
-            </h1>
-            <p className="text-lg lg:text-xl mb-8 text-primary-foreground/90 max-w-3xl mx-auto" data-testid="text-hero-subtitle">
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.28 }}
+              className="text-lg lg:text-xl mb-8 text-primary-foreground/90 max-w-3xl mx-auto"
+              data-testid="text-hero-subtitle"
+            >
               We handle the entire tender process for UK care and cleaning businesses — finding the right opportunities, writing compelling bids, and submitting on time — so you can focus on running your services.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              className="flex flex-col sm:flex-row gap-4 justify-center mb-6"
+            >
               <Button asChild size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 font-semibold" data-testid="button-hero-get-started">
                 <Link href="/contact">BOOK A FREE CONSULTATION</Link>
               </Button>
               <Button asChild size="lg" variant="outline" className="border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary" data-testid="button-hero-discover-services">
                 <Link href="/results">SEE OUR RESULTS</Link>
               </Button>
-            </div>
-            <p className="text-sm text-primary-foreground/70">
+            </motion.div>
+
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.52 }}
+              className="text-sm text-primary-foreground/70"
+            >
               Free initial consultation &nbsp;·&nbsp; Confidential service &nbsp;·&nbsp; UK specialists
-            </p>
-          </motion.div>
+            </motion.p>
+
+            {/* Floating stat cards */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.65 }}
+              className="flex flex-wrap justify-center gap-4 mt-10"
+            >
+              {[
+                { num: 50, suffix: '+', label: 'Bids Submitted' },
+                { num: 2, suffix: '', label: 'Verified Contract Wins' },
+                { num: 90, suffix: '%', label: 'Repeat & Referral Clients' },
+              ].map((stat) => (
+                <div key={stat.label} className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl px-6 py-4 text-center min-w-[130px]">
+                  <CountUp to={stat.num} suffix={stat.suffix} className="text-2xl font-bold text-accent block" />
+                  <div className="text-xs text-primary-foreground/80 mt-1">{stat.label}</div>
+                </div>
+              ))}
+            </motion.div>
+          </div>
         </div>
       </section>
 
@@ -227,7 +294,7 @@ export default function Home() {
                 className="text-center"
               >
                 <div className="text-4xl lg:text-5xl font-bold text-primary mb-2" data-testid={`text-stat-value-${i}`}>
-                  {stat.value}
+                  <CountUp to={stat.num} suffix={stat.suffix} />
                 </div>
                 <div className="text-sm text-muted-foreground" data-testid={`text-stat-label-${i}`}>
                   {stat.label}
@@ -241,8 +308,100 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Why Choose Dgeneris */}
+      {/* Problem vs Solution */}
       <section className="py-20 bg-muted/30">
+        <div className="container mx-auto px-4 lg:px-8">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeInUp}
+            className="text-center mb-12"
+          >
+            <h2 className="text-3xl lg:text-4xl font-bold mb-4">
+              Tendering Alone vs <span className="text-accent">Working With Us</span>
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Most care and cleaning businesses lose contracts not because they can't deliver — but because their bid doesn't reflect how good they really are.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            {/* Without Dgeneris */}
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={fadeInUp}
+              transition={{ duration: 0.5 }}
+            >
+              <Card className="h-full border-red-200 bg-red-50/50 dark:bg-red-950/10">
+                <CardContent className="p-8">
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center">
+                      <span className="text-red-500 font-bold text-sm">✗</span>
+                    </div>
+                    <h3 className="font-bold text-lg text-red-700 dark:text-red-400">Going It Alone</h3>
+                  </div>
+                  <ul className="space-y-3">
+                    {[
+                      'Hours spent deciphering procurement jargon',
+                      'Missed deadlines due to complex portal requirements',
+                      'Generic responses that fail to score well',
+                      'No idea which tenders are worth pursuing',
+                      'Social value and sustainability sections left weak',
+                      'Feedback after a loss, but no one to help interpret it',
+                    ].map((item) => (
+                      <li key={item} className="flex items-start gap-3">
+                        <span className="text-red-400 mt-0.5 flex-shrink-0">✗</span>
+                        <span className="text-sm text-muted-foreground">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </CardContent>
+              </Card>
+            </motion.div>
+
+            {/* With Dgeneris */}
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={fadeInUp}
+              transition={{ duration: 0.5, delay: 0.15 }}
+            >
+              <Card className="h-full border-accent/30 bg-accent/5">
+                <CardContent className="p-8">
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center">
+                      <span className="text-accent font-bold text-sm">✓</span>
+                    </div>
+                    <h3 className="font-bold text-lg text-primary">With Dgeneris</h3>
+                  </div>
+                  <ul className="space-y-3">
+                    {[
+                      'We handle all research, writing, and portal submission',
+                      'Deadlines tracked and managed — nothing missed',
+                      'Tailored responses built around your real strengths',
+                      'We filter opportunities — only pursue ones worth winning',
+                      'Compelling social value and ESG sections included',
+                      'Full debrief after every outcome to sharpen future bids',
+                    ].map((item) => (
+                      <li key={item} className="flex items-start gap-3">
+                        <CheckCircle2 className="h-4 w-4 text-accent mt-0.5 flex-shrink-0" />
+                        <span className="text-sm text-foreground font-medium">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </CardContent>
+              </Card>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Why Choose Dgeneris */}
+      <section className="py-20 bg-background">
         <div className="container mx-auto px-4 lg:px-8">
           <motion.div
             initial="hidden"
@@ -259,17 +418,20 @@ export default function Home() {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-            {WHY_CHOOSE.map((item, i) => (
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto"
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
+            {WHY_CHOOSE.map((item) => (
               <motion.div
                 key={item.title}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                variants={fadeInUp}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
+                variants={cardVariants}
+                whileHover={{ y: -5, transition: { duration: 0.2 } }}
               >
-                <Card className="h-full border-l-4 border-l-accent hover:shadow-lg transition-all">
+                <Card className="h-full border-l-4 border-l-accent hover:shadow-lg transition-shadow">
                   <CardContent className="p-6 flex gap-5">
                     <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center">
                       <item.icon className="h-6 w-6 text-accent" />
@@ -282,7 +444,7 @@ export default function Home() {
                 </Card>
               </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -304,17 +466,20 @@ export default function Home() {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
             {SERVICES.map((service, i) => (
               <motion.div
                 key={service.title}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                variants={fadeInUp}
-                transition={{ duration: 0.5, delay: i * 0.05 }}
+                variants={cardVariants}
+                whileHover={{ y: -5, transition: { duration: 0.2 } }}
               >
-                <Card className="h-full hover:shadow-lg transition-all hover:border-primary/50" data-testid={`card-service-${i}`}>
+                <Card className="h-full hover:shadow-lg transition-shadow hover:border-primary/50" data-testid={`card-service-${i}`}>
                   <CardContent className="p-6">
                     <service.icon className="h-10 w-10 text-accent mb-4" />
                     <h3 className="font-semibold text-lg mb-2">{service.title}</h3>
@@ -323,7 +488,7 @@ export default function Home() {
                 </Card>
               </motion.div>
             ))}
-          </div>
+          </motion.div>
 
           <div className="text-center mt-12">
             <Button asChild size="lg" variant="outline" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground" data-testid="button-view-all-services">
