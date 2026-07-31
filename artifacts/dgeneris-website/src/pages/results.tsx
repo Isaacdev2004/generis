@@ -62,8 +62,10 @@ export default function Results() {
   return (
     <>
       {/* Hero */}
-      <section className="bg-gradient-to-br from-primary to-secondary text-primary-foreground py-20">
-        <div className="container mx-auto px-4 lg:px-8">
+      <section className="relative text-primary-foreground py-20 overflow-hidden">
+        <img src="/stock/handshake.jpg" alt="Business professionals celebrating a contract win" className="absolute inset-0 w-full h-full object-cover" />
+        <div className="absolute inset-0 bg-primary/88" />
+        <div className="relative container mx-auto px-4 lg:px-8">
           <motion.div
             initial="hidden"
             animate="visible"

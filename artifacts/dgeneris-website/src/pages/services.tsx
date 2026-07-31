@@ -87,8 +87,10 @@ export default function Services() {
   return (
     <>
       {/* Hero */}
-      <section className="bg-gradient-to-br from-primary to-secondary text-primary-foreground py-20">
-        <div className="container mx-auto px-4 lg:px-8">
+      <section className="relative text-primary-foreground py-20 overflow-hidden">
+        <img src="/stock/services.jpg" alt="Professional bid writing documents" className="absolute inset-0 w-full h-full object-cover" />
+        <div className="absolute inset-0 bg-primary/88" />
+        <div className="relative container mx-auto px-4 lg:px-8">
           <motion.div
             initial="hidden"
             animate="visible"
@@ -139,6 +141,16 @@ export default function Services() {
               </motion.div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Mid-page image banner */}
+      <section className="relative h-56 overflow-hidden">
+        <img src="/stock/handshake.jpg" alt="Professional business handshake" className="w-full h-full object-cover object-center" />
+        <div className="absolute inset-0 bg-primary/75 flex items-center justify-center">
+          <p className="text-primary-foreground text-2xl lg:text-3xl font-bold text-center px-4">
+            Every contract win starts with a well-written bid.
+          </p>
         </div>
       </section>
 

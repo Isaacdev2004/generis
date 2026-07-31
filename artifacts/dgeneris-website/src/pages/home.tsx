@@ -13,6 +13,10 @@ import {
   CheckCircle2,
   BookOpen,
   Phone,
+  Star,
+  Zap,
+  Eye,
+  BadgeCheck,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -94,6 +98,40 @@ const PROCESS_STEPS = [
   { title: 'Quality Review & Submission', description: 'Final checks and timely submission to procurement portals' },
 ];
 
+const WHY_CHOOSE = [
+  {
+    icon: Star,
+    title: 'Sector Specialists, Not Generalists',
+    description: 'We work exclusively with UK care and cleaning businesses. Every framework, every buyer, every scoring methodology in your sector — we know it inside out.',
+  },
+  {
+    icon: Eye,
+    title: 'You Stay in Control',
+    description: 'You review and approve every word before submission. We write the bid; you understand what you\'re committing to. No black boxes, no surprises.',
+  },
+  {
+    icon: Zap,
+    title: 'We Handle Everything',
+    description: 'From finding the right tender to final submission — we manage the entire process so you can focus on running your services, not wrestling with procurement portals.',
+  },
+  {
+    icon: BadgeCheck,
+    title: 'Transparent, Honest Pricing',
+    description: 'Fixed-scope pricing with no hidden fees. We tell you exactly what\'s included before any work begins, and we don\'t push you towards tenders you\'re unlikely to win.',
+  },
+];
+
+const FRAMEWORKS = [
+  'EEM (Efficiency East Midlands)',
+  'YPO Framework',
+  'Crown Commercial Service',
+  'NHS Supply Chain',
+  'Contracts Finder',
+  'Find a Tender Service',
+  'Local Authority Frameworks',
+  'Care Quality Commission',
+];
+
 const fadeInUp = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0 },
@@ -122,19 +160,23 @@ export default function Home() {
             className="max-w-4xl mx-auto text-center"
           >
             <h1 className="text-4xl lg:text-6xl font-bold mb-6 leading-tight" data-testid="text-hero-title">
-              WIN MORE UK CARE AND CLEANING CONTRACTS WITH EXPERT BID SUPPORT
+              Stop Losing Contracts to{' '}
+              <span className="text-accent">Better-Written Bids</span>
             </h1>
-            <p className="text-lg lg:text-xl mb-8 text-primary-foreground/90" data-testid="text-hero-subtitle">
-              Professional tender writing consultancy for care providers and cleaning businesses pursuing public-sector opportunities.
+            <p className="text-lg lg:text-xl mb-8 text-primary-foreground/90 max-w-3xl mx-auto" data-testid="text-hero-subtitle">
+              We handle the entire tender process for UK care and cleaning businesses — finding the right opportunities, writing compelling bids, and submitting on time — so you can focus on running your services.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
               <Button asChild size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 font-semibold" data-testid="button-hero-get-started">
-                <Link href="/contact">GET STARTED</Link>
+                <Link href="/contact">BOOK A FREE CONSULTATION</Link>
               </Button>
               <Button asChild size="lg" variant="outline" className="border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary" data-testid="button-hero-discover-services">
-                <Link href="/services">DISCOVER OUR SERVICES</Link>
+                <Link href="/results">SEE OUR RESULTS</Link>
               </Button>
             </div>
+            <p className="text-sm text-primary-foreground/70">
+              Free initial consultation &nbsp;·&nbsp; No upfront fees &nbsp;·&nbsp; Confidential service &nbsp;·&nbsp; UK specialists
+            </p>
           </motion.div>
         </div>
       </section>
@@ -148,6 +190,25 @@ export default function Home() {
               <span className="text-sm font-medium text-foreground">{badge}</span>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* Frameworks Strip */}
+      <section className="py-10 bg-background border-b">
+        <div className="container mx-auto px-4 lg:px-8">
+          <p className="text-center text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-6">
+            We've Won Contracts On These Frameworks & Portals
+          </p>
+          <div className="flex flex-wrap justify-center gap-3">
+            {FRAMEWORKS.map((fw) => (
+              <span
+                key={fw}
+                className="px-4 py-2 rounded-full border border-primary/20 bg-primary/5 text-sm font-medium text-primary"
+              >
+                {fw}
+              </span>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -180,8 +241,53 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Services Overview */}
+      {/* Why Choose Dgeneris */}
       <section className="py-20 bg-muted/30">
+        <div className="container mx-auto px-4 lg:px-8">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeInUp}
+            className="text-center mb-12"
+          >
+            <h2 className="text-3xl lg:text-4xl font-bold mb-4">
+              Why Choose <span className="text-accent">Dgeneris?</span>
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              What makes us different from other bid consultancies — and why care and cleaning businesses trust us with their contracts.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            {WHY_CHOOSE.map((item, i) => (
+              <motion.div
+                key={item.title}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={fadeInUp}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+              >
+                <Card className="h-full border-l-4 border-l-accent hover:shadow-lg transition-all">
+                  <CardContent className="p-6 flex gap-5">
+                    <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center">
+                      <item.icon className="h-6 w-6 text-accent" />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-lg mb-2 text-primary">{item.title}</h3>
+                      <p className="text-sm text-muted-foreground leading-relaxed">{item.description}</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Services Overview */}
+      <section className="py-20 bg-background">
         <div className="container mx-auto px-4 lg:px-8">
           <motion.div
             initial="hidden"
