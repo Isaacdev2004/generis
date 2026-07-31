@@ -175,7 +175,7 @@ export default function Home() {
               </Button>
             </div>
             <p className="text-sm text-primary-foreground/70">
-              Free initial consultation &nbsp;·&nbsp; No upfront fees &nbsp;·&nbsp; Confidential service &nbsp;·&nbsp; UK specialists
+              Free initial consultation &nbsp;·&nbsp; Confidential service &nbsp;·&nbsp; UK specialists
             </p>
           </motion.div>
         </div>
