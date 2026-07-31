@@ -3,20 +3,38 @@ info:
   # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: Dgeneris Bid & Tender Solutions API
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: enquiries
+    description: Contact form and enquiry management
+  - name: faqs
+    description: FAQ management
+  - name: blog
+    description: Blog posts and resources
+  - name: testimonials
+    description: Client testimonials
+  - name: case-studies
+    description: Case study management
+  - name: newsletter
+    description: Newsletter subscriptions
+  - name: portal
+    description: Client portal
+  - name: admin
+    description: Admin dashboard
+  - name: checkout
+    description: Payment and checkout
+
 paths:
   /healthz:
     get:
       operationId: healthCheck
       tags: [health]
       summary: Health check
-      description: Returns server health status
       responses:
         "200":
           description: Healthy
@@ -24,6 +42,680 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  # ─── Public: Enquiries ───────────────────────────────────────────────────────
+  /enquiries:
+    post:
+      operationId: submitEnquiry
+      tags: [enquiries]
+      summary: Submit a contact/service enquiry
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EnquiryInput"
+      responses:
+        "201":
+          description: Enquiry submitted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Enquiry"
+        "400":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  # ─── Public: FAQs ─────────────────────────────────────────────────────────
+  /faqs:
+    get:
+      operationId: listFaqs
+      tags: [faqs]
+      summary: List all FAQs
+      responses:
+        "200":
+          description: List of FAQs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Faq"
+
+  # ─── Public: Testimonials ─────────────────────────────────────────────────
+  /testimonials:
+    get:
+      operationId: listTestimonials
+      tags: [testimonials]
+      summary: List published testimonials
+      responses:
+        "200":
+          description: List of testimonials
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Testimonial"
+
+  # ─── Public: Case Studies ─────────────────────────────────────────────────
+  /case-studies:
+    get:
+      operationId: listCaseStudies
+      tags: [case-studies]
+      summary: List published case studies
+      responses:
+        "200":
+          description: List of case studies
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CaseStudy"
+
+  # ─── Public: Blog Posts ───────────────────────────────────────────────────
+  /blog-posts:
+    get:
+      operationId: listBlogPosts
+      tags: [blog]
+      summary: List published blog posts
+      parameters:
+        - name: category
+          in: query
+          schema:
+            type: ["string", "null"]
+          description: Filter by category
+      responses:
+        "200":
+          description: List of blog posts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/BlogPost"
+
+  /blog-posts/{slug}:
+    get:
+      operationId: getBlogPost
+      tags: [blog]
+      summary: Get a blog post by slug
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Blog post
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BlogPost"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  # ─── Public: Newsletter ───────────────────────────────────────────────────
+  /newsletter/subscribe:
+    post:
+      operationId: subscribeNewsletter
+      tags: [newsletter]
+      summary: Subscribe to newsletter
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewsletterInput"
+      responses:
+        "201":
+          description: Subscribed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NewsletterSubscriber"
+        "400":
+          description: Already subscribed or invalid email
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  # ─── Checkout / Payments ──────────────────────────────────────────────────
+  /checkout/create-session:
+    post:
+      operationId: createCheckoutSession
+      tags: [checkout]
+      summary: Create a Stripe checkout session
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CheckoutSessionInput"
+      responses:
+        "200":
+          description: Stripe checkout session URL
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CheckoutSessionResult"
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /checkout/webhook:
+    post:
+      operationId: handleWebhook
+      tags: [checkout]
+      summary: Handle Stripe webhook events
+      responses:
+        "200":
+          description: Webhook received
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WebhookAck"
+
+  # ─── Client Portal ────────────────────────────────────────────────────────
+  /portal/projects:
+    get:
+      operationId: listPortalProjects
+      tags: [portal]
+      summary: List projects for the authenticated client
+      responses:
+        "200":
+          description: Client projects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Project"
+
+  /portal/projects/{id}:
+    get:
+      operationId: getPortalProject
+      tags: [portal]
+      summary: Get a specific project
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: number
+      responses:
+        "200":
+          description: Project detail
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Project"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /portal/projects/{id}/messages:
+    get:
+      operationId: listProjectMessages
+      tags: [portal]
+      summary: Get messages for a project
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: number
+      responses:
+        "200":
+          description: Project messages
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ProjectMessage"
+    post:
+      operationId: sendProjectMessage
+      tags: [portal]
+      summary: Send a message on a project
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProjectMessageInput"
+      responses:
+        "201":
+          description: Message sent
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProjectMessage"
+
+  /portal/orders:
+    get:
+      operationId: listPortalOrders
+      tags: [portal]
+      summary: Get orders for the authenticated client
+      responses:
+        "200":
+          description: Client orders
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Order"
+
+  # ─── Admin ────────────────────────────────────────────────────────────────
+  /admin/stats:
+    get:
+      operationId: getAdminStats
+      tags: [admin]
+      summary: Admin dashboard statistics
+      responses:
+        "200":
+          description: Dashboard stats
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminStats"
+
+  /admin/enquiries:
+    get:
+      operationId: listAdminEnquiries
+      tags: [admin]
+      summary: List all enquiries (admin)
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: ["string", "null"]
+      responses:
+        "200":
+          description: List of enquiries
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Enquiry"
+
+  /admin/enquiries/{id}:
+    get:
+      operationId: getAdminEnquiry
+      tags: [admin]
+      summary: Get an enquiry by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: number
+      responses:
+        "200":
+          description: Enquiry detail
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Enquiry"
+    patch:
+      operationId: updateAdminEnquiry
+      tags: [admin]
+      summary: Update an enquiry status/notes
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EnquiryUpdate"
+      responses:
+        "200":
+          description: Updated enquiry
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Enquiry"
+
+  /admin/projects:
+    get:
+      operationId: listAdminProjects
+      tags: [admin]
+      summary: List all projects (admin)
+      responses:
+        "200":
+          description: All projects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Project"
+
+  /admin/projects/{id}:
+    patch:
+      operationId: updateAdminProject
+      tags: [admin]
+      summary: Update a project (status, notes, etc.)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProjectUpdate"
+      responses:
+        "200":
+          description: Updated project
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Project"
+
+  /admin/orders:
+    get:
+      operationId: listAdminOrders
+      tags: [admin]
+      summary: List all orders (admin)
+      responses:
+        "200":
+          description: All orders
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Order"
+
+  /admin/blog-posts:
+    get:
+      operationId: listAdminBlogPosts
+      tags: [admin]
+      summary: List all blog posts (admin, including drafts)
+      responses:
+        "200":
+          description: All blog posts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/BlogPost"
+    post:
+      operationId: createBlogPost
+      tags: [admin]
+      summary: Create a blog post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BlogPostInput"
+      responses:
+        "201":
+          description: Created blog post
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BlogPost"
+
+  /admin/blog-posts/{id}:
+    patch:
+      operationId: updateBlogPost
+      tags: [admin]
+      summary: Update a blog post
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BlogPostUpdate"
+      responses:
+        "200":
+          description: Updated blog post
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BlogPost"
+    delete:
+      operationId: deleteBlogPost
+      tags: [admin]
+      summary: Delete a blog post
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: number
+      responses:
+        "204":
+          description: Deleted
+
+  /admin/faqs:
+    post:
+      operationId: createFaq
+      tags: [admin]
+      summary: Create a FAQ
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FaqInput"
+      responses:
+        "201":
+          description: Created FAQ
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Faq"
+
+  /admin/faqs/{id}:
+    patch:
+      operationId: updateFaq
+      tags: [admin]
+      summary: Update a FAQ
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FaqUpdate"
+      responses:
+        "200":
+          description: Updated FAQ
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Faq"
+    delete:
+      operationId: deleteFaq
+      tags: [admin]
+      summary: Delete a FAQ
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: number
+      responses:
+        "204":
+          description: Deleted
+
+  /admin/testimonials:
+    post:
+      operationId: createTestimonial
+      tags: [admin]
+      summary: Create a testimonial
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TestimonialInput"
+      responses:
+        "201":
+          description: Created testimonial
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Testimonial"
+
+  /admin/testimonials/{id}:
+    patch:
+      operationId: updateTestimonial
+      tags: [admin]
+      summary: Update a testimonial
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TestimonialUpdate"
+      responses:
+        "200":
+          description: Updated testimonial
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Testimonial"
+    delete:
+      operationId: deleteTestimonial
+      tags: [admin]
+      summary: Delete a testimonial
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: number
+      responses:
+        "204":
+          description: Deleted
+
+  /admin/case-studies:
+    post:
+      operationId: createCaseStudy
+      tags: [admin]
+      summary: Create a case study
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CaseStudyInput"
+      responses:
+        "201":
+          description: Created case study
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CaseStudy"
+
+  /admin/case-studies/{id}:
+    patch:
+      operationId: updateCaseStudy
+      tags: [admin]
+      summary: Update a case study
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CaseStudyUpdate"
+      responses:
+        "200":
+          description: Updated case study
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CaseStudy"
+    delete:
+      operationId: deleteCaseStudy
+      tags: [admin]
+      summary: Delete a case study
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: number
+      responses:
+        "204":
+          description: Deleted
+
+  /admin/newsletter-subscribers:
+    get:
+      operationId: listNewsletterSubscribers
+      tags: [admin]
+      summary: List newsletter subscribers (admin)
+      responses:
+        "200":
+          description: Subscribers list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/NewsletterSubscriber"
+
 components:
   schemas:
     HealthStatus:
@@ -31,6 +723,533 @@ components:
       properties:
         status:
           type: string
-      required:
-        - status
+      required: [status]
 
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+      required: [error]
+
+    WebhookAck:
+      type: object
+      properties:
+        received:
+          type: boolean
+      required: [received]
+
+    # ── Enquiry ─────────────────────────────────────────────────────────────
+    Enquiry:
+      type: object
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+        companyName:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        sector:
+          type: string
+          description: "care or cleaning"
+        serviceRequired:
+          type: string
+        tenderDeadline:
+          type: ["string", "null"]
+        estimatedBudget:
+          type: ["string", "null"]
+        message:
+          type: string
+        status:
+          type: string
+          description: "new, in_review, responded, closed"
+        adminNotes:
+          type: ["string", "null"]
+        newsletterOptIn:
+          type: boolean
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required: [id, name, companyName, email, phone, sector, serviceRequired, message, status, newsletterOptIn, createdAt, updatedAt]
+
+    EnquiryInput:
+      type: object
+      properties:
+        name:
+          type: string
+        companyName:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        sector:
+          type: string
+        serviceRequired:
+          type: string
+        tenderDeadline:
+          type: ["string", "null"]
+        estimatedBudget:
+          type: ["string", "null"]
+        message:
+          type: string
+        newsletterOptIn:
+          type: boolean
+      required: [name, companyName, email, phone, sector, serviceRequired, message]
+
+    EnquiryUpdate:
+      type: object
+      properties:
+        status:
+          type: ["string", "null"]
+        adminNotes:
+          type: ["string", "null"]
+
+    # ── FAQ ─────────────────────────────────────────────────────────────────
+    Faq:
+      type: object
+      properties:
+        id:
+          type: number
+        question:
+          type: string
+        answer:
+          type: string
+        category:
+          type: ["string", "null"]
+        sortOrder:
+          type: number
+        published:
+          type: boolean
+        createdAt:
+          type: string
+      required: [id, question, answer, sortOrder, published, createdAt]
+
+    FaqInput:
+      type: object
+      properties:
+        question:
+          type: string
+        answer:
+          type: string
+        category:
+          type: ["string", "null"]
+        sortOrder:
+          type: number
+        published:
+          type: boolean
+      required: [question, answer, sortOrder]
+
+    FaqUpdate:
+      type: object
+      properties:
+        question:
+          type: ["string", "null"]
+        answer:
+          type: ["string", "null"]
+        category:
+          type: ["string", "null"]
+        sortOrder:
+          type: ["number", "null"]
+        published:
+          type: ["boolean", "null"]
+
+    # ── Testimonial ─────────────────────────────────────────────────────────
+    Testimonial:
+      type: object
+      properties:
+        id:
+          type: number
+        clientName:
+          type: string
+        companyName:
+          type: string
+        sector:
+          type: string
+        quote:
+          type: string
+        rating:
+          type: ["number", "null"]
+        published:
+          type: boolean
+        createdAt:
+          type: string
+      required: [id, clientName, companyName, sector, quote, published, createdAt]
+
+    TestimonialInput:
+      type: object
+      properties:
+        clientName:
+          type: string
+        companyName:
+          type: string
+        sector:
+          type: string
+        quote:
+          type: string
+        rating:
+          type: ["number", "null"]
+        published:
+          type: boolean
+      required: [clientName, companyName, sector, quote]
+
+    TestimonialUpdate:
+      type: object
+      properties:
+        clientName:
+          type: ["string", "null"]
+        companyName:
+          type: ["string", "null"]
+        sector:
+          type: ["string", "null"]
+        quote:
+          type: ["string", "null"]
+        rating:
+          type: ["number", "null"]
+        published:
+          type: ["boolean", "null"]
+
+    # ── CaseStudy ───────────────────────────────────────────────────────────
+    CaseStudy:
+      type: object
+      properties:
+        id:
+          type: number
+        clientSector:
+          type: string
+        tenderType:
+          type: string
+        objective:
+          type: string
+        challenge:
+          type: string
+        supportProvided:
+          type: string
+        outcome:
+          type: string
+        clientFeedback:
+          type: ["string", "null"]
+        published:
+          type: boolean
+        isExample:
+          type: boolean
+          description: "Marks this as a placeholder example, not a real case"
+        createdAt:
+          type: string
+      required: [id, clientSector, tenderType, objective, challenge, supportProvided, outcome, published, isExample, createdAt]
+
+    CaseStudyInput:
+      type: object
+      properties:
+        clientSector:
+          type: string
+        tenderType:
+          type: string
+        objective:
+          type: string
+        challenge:
+          type: string
+        supportProvided:
+          type: string
+        outcome:
+          type: string
+        clientFeedback:
+          type: ["string", "null"]
+        published:
+          type: boolean
+        isExample:
+          type: boolean
+      required: [clientSector, tenderType, objective, challenge, supportProvided, outcome]
+
+    CaseStudyUpdate:
+      type: object
+      properties:
+        clientSector:
+          type: ["string", "null"]
+        tenderType:
+          type: ["string", "null"]
+        objective:
+          type: ["string", "null"]
+        challenge:
+          type: ["string", "null"]
+        supportProvided:
+          type: ["string", "null"]
+        outcome:
+          type: ["string", "null"]
+        clientFeedback:
+          type: ["string", "null"]
+        published:
+          type: ["boolean", "null"]
+        isExample:
+          type: ["boolean", "null"]
+
+    # ── BlogPost ─────────────────────────────────────────────────────────────
+    BlogPost:
+      type: object
+      properties:
+        id:
+          type: number
+        title:
+          type: string
+        slug:
+          type: string
+        excerpt:
+          type: string
+        content:
+          type: string
+        category:
+          type: ["string", "null"]
+        published:
+          type: boolean
+        publishedAt:
+          type: ["string", "null"]
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required: [id, title, slug, excerpt, content, published, createdAt, updatedAt]
+
+    BlogPostInput:
+      type: object
+      properties:
+        title:
+          type: string
+        slug:
+          type: string
+        excerpt:
+          type: string
+        content:
+          type: string
+        category:
+          type: ["string", "null"]
+        published:
+          type: boolean
+      required: [title, slug, excerpt, content]
+
+    BlogPostUpdate:
+      type: object
+      properties:
+        title:
+          type: ["string", "null"]
+        slug:
+          type: ["string", "null"]
+        excerpt:
+          type: ["string", "null"]
+        content:
+          type: ["string", "null"]
+        category:
+          type: ["string", "null"]
+        published:
+          type: ["boolean", "null"]
+
+    # ── Newsletter ──────────────────────────────────────────────────────────
+    NewsletterInput:
+      type: object
+      properties:
+        email:
+          type: string
+        name:
+          type: ["string", "null"]
+      required: [email]
+
+    NewsletterSubscriber:
+      type: object
+      properties:
+        id:
+          type: number
+        email:
+          type: string
+        name:
+          type: ["string", "null"]
+        subscribedAt:
+          type: string
+      required: [id, email, subscribedAt]
+
+    # ── Checkout / Payments ─────────────────────────────────────────────────
+    CheckoutSessionInput:
+      type: object
+      properties:
+        packageType:
+          type: string
+          description: "tender_research | bid_review | full_tender | retainer | custom"
+        clientName:
+          type: string
+        clientEmail:
+          type: string
+        companyName:
+          type: string
+        description:
+          type: string
+        amount:
+          type: ["number", "null"]
+          description: "Amount in pence (GBP). Null for custom invoice"
+      required: [packageType, clientName, clientEmail, companyName, description]
+
+    CheckoutSessionResult:
+      type: object
+      properties:
+        url:
+          type: string
+        sessionId:
+          type: string
+      required: [url, sessionId]
+
+    # ── Order ────────────────────────────────────────────────────────────────
+    Order:
+      type: object
+      properties:
+        id:
+          type: number
+        clientName:
+          type: string
+        clientEmail:
+          type: string
+        companyName:
+          type: string
+        packageType:
+          type: string
+        description:
+          type: string
+        amountPence:
+          type: number
+        status:
+          type: string
+          description: "pending | paid | failed | refunded"
+        stripeSessionId:
+          type: ["string", "null"]
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required: [id, clientName, clientEmail, companyName, packageType, description, amountPence, status, createdAt, updatedAt]
+
+    # ── Project (Client Portal) ─────────────────────────────────────────────
+    Project:
+      type: object
+      properties:
+        id:
+          type: number
+        clientName:
+          type: string
+        clientEmail:
+          type: string
+        companyName:
+          type: string
+        serviceType:
+          type: string
+        tenderDeadline:
+          type: ["string", "null"]
+        status:
+          type: string
+          description: "enquiry_received | awaiting_documents | under_review | information_required | drafting | client_review | revision | final_quality_check | ready_for_submission | completed"
+        adminNotes:
+          type: ["string", "null"]
+        orderId:
+          type: ["number", "null"]
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required: [id, clientName, clientEmail, companyName, serviceType, status, createdAt, updatedAt]
+
+    ProjectUpdate:
+      type: object
+      properties:
+        status:
+          type: ["string", "null"]
+        adminNotes:
+          type: ["string", "null"]
+        tenderDeadline:
+          type: ["string", "null"]
+
+    # ── Project Messages ────────────────────────────────────────────────────
+    ProjectMessage:
+      type: object
+      properties:
+        id:
+          type: number
+        projectId:
+          type: number
+        senderType:
+          type: string
+          description: "client | admin"
+        senderName:
+          type: string
+        message:
+          type: string
+        createdAt:
+          type: string
+      required: [id, projectId, senderType, senderName, message, createdAt]
+
+    ProjectMessageInput:
+      type: object
+      properties:
+        senderType:
+          type: string
+        senderName:
+          type: string
+        message:
+          type: string
+      required: [senderType, senderName, message]
+
+    # ── Admin Stats (wow endpoint) ───────────────────────────────────────────
+    AdminStats:
+      type: object
+      properties:
+        totalEnquiries:
+          type: number
+        newEnquiries:
+          type: number
+        totalOrders:
+          type: number
+        totalRevenuePence:
+          type: number
+        activeProjects:
+          type: number
+        completedProjects:
+          type: number
+        totalTestimonials:
+          type: number
+        totalBlogPosts:
+          type: number
+        totalSubscribers:
+          type: number
+        recentEnquiries:
+          type: array
+          items:
+            $ref: "#/components/schemas/Enquiry"
+        recentOrders:
+          type: array
+          items:
+            $ref: "#/components/schemas/Order"
+        projectsByStatus:
+          type: array
+          items:
+            $ref: "#/components/schemas/StatusCount"
+      required:
+        - totalEnquiries
+        - newEnquiries
+        - totalOrders
+        - totalRevenuePence
+        - activeProjects
+        - completedProjects
+        - totalTestimonials
+        - totalBlogPosts
+        - totalSubscribers
+        - recentEnquiries
+        - recentOrders
+        - projectsByStatus
+
+    StatusCount:
+      type: object
+      properties:
+        status:
+          type: string
+        count:
+          type: number
+      required: [status, count]
