@@ -1,9 +1,9 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "vite",
-  "installCommand": "pnpm install",
-  "buildCommand": "pnpm --filter @workspace/dgeneris-website run build",
-  "outputDirectory": "artifacts/dgeneris-website/dist",
+  "installCommand": "cd ../.. && pnpm install",
+  "buildCommand": "pnpm run build",
+  "outputDirectory": "dist",
   "rewrites": [
     {
       "source": "/(.*)",
