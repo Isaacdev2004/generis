@@ -23,9 +23,10 @@ export default function Resources() {
   const [category, setCategory] = useState<string | undefined>(undefined);
   const [searchTerm, setSearchTerm] = useState('');
 
-  const { data: posts = [], isLoading } = useListBlogPosts(
+  const { data: postsData, isLoading } = useListBlogPosts(
     category ? { category } : undefined
   );
+  const posts = Array.isArray(postsData) ? postsData : [];
 
   const filteredPosts = posts.filter((post) =>
     searchTerm

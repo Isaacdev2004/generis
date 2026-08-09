@@ -52,8 +52,10 @@ const VERIFIED_WINS = [
 ];
 
 export default function Results() {
-  const { data: caseStudies = [], isLoading } = useListCaseStudies();
-  const { data: testimonials = [] } = useListTestimonials();
+  const { data: caseStudiesData, isLoading } = useListCaseStudies();
+  const { data: testimonialsData } = useListTestimonials();
+  const caseStudies = Array.isArray(caseStudiesData) ? caseStudiesData : [];
+  const testimonials = Array.isArray(testimonialsData) ? testimonialsData : [];
 
   // Separate real wins from example case studies
   const realWins = caseStudies.filter((cs) => !cs.isExample);

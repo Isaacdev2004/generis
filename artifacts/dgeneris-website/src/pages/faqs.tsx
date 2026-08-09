@@ -14,7 +14,8 @@ const fadeInUp = {
 };
 
 export default function FAQs() {
-  const { data: faqs = [], isLoading } = useListFaqs();
+  const { data: faqsData, isLoading } = useListFaqs();
+  const faqs = Array.isArray(faqsData) ? faqsData : [];
 
   const groupedFaqs = faqs.reduce((acc, faq) => {
     const category = faq.category || 'General';

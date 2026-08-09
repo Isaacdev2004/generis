@@ -367,5 +367,23 @@ export async function customFetch<T = unknown>(
     throw new ApiError(response, errorData, requestInfo);
   }
 
+  // SPA hosts (e.g. Vercel) often rewrite unknown routes to index.html.
+  // Treat HTML success responses on /api/* as errors so callers keep empty defaults.
+  const mediaType = getMediaType(response.headers);
+  const requestUrl = requestInfo.url;
+  if (
+    (requestUrl.includes("/api/") || requestUrl.endsWith("/api")) &&
+    (mediaType === "text/html" || mediaType === "application/xhtml+xml")
+  ) {
+    throw new ApiError(
+      response,
+      {
+        error:
+          "API returned HTML instead of JSON. Is the API server deployed and proxied?",
+      },
+      requestInfo,
+    );
+  }
+
   return (await parseSuccessBody(response, responseType, requestInfo)) as T;
 }

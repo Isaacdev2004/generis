@@ -21,7 +21,7 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { useListTestimonials, useListCaseStudies } from '@workspace/api-client-react';
+import { useListTestimonials } from '@workspace/api-client-react';
 
 const SERVICES = [
   {
@@ -149,8 +149,9 @@ const cardVariants = {
 };
 
 export default function Home() {
-  const { data: testimonials = [] } = useListTestimonials();
-  const { data: caseStudies = [] } = useListCaseStudies();
+  const { data: testimonialsData } = useListTestimonials();
+  const testimonials = Array.isArray(testimonialsData) ? testimonialsData : [];
+
 
   return (
     <>
