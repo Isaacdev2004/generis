@@ -1,20 +1,40 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'wouter';
-import { Menu } from 'lucide-react';
+import { Menu, ChevronDown, Phone } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import {
+  BRAND_NAME,
+  CTA,
+  PHONE_DISPLAY,
+  PHONE_HREF,
+} from '@/lib/brand';
+
+const SERVICE_LINKS = [
+  { label: 'Tender Discovery', href: '/services/tender-discovery' },
+  { label: 'Tender Assessment', href: '/assess-my-tender' },
+  { label: 'Bid Strategy', href: '/services/bid-strategy' },
+  { label: 'Tender Writing', href: '/services/tender-writing' },
+  { label: 'Bid Review', href: '/services/bid-review' },
+  { label: 'Red-Team Review', href: '/red-team-review' },
+  { label: 'Tender Readiness', href: '/tender-readiness' },
+  { label: 'CQC Registration Support', href: '/services/cqc-registration-support' },
+];
+
+const SECTOR_LINKS = [
+  { label: 'Care Tendering', href: '/sectors/care' },
+  { label: 'Cleaning & FM', href: '/sectors/cleaning' },
+];
 
 const NAV_LINKS = [
   { label: 'Home', href: '/' },
-  { label: 'About', href: '/about' },
-  { label: 'Services', href: '/services' },
-  { label: 'Sectors', href: '/sectors' },
-  { label: 'Results', href: '/results' },
-  { label: 'How It Works', href: '/how-it-works' },
-  { label: 'Pricing', href: '/pricing' },
+  { label: 'Services', href: '/services', children: SERVICE_LINKS },
+  { label: 'Sectors', href: '/sectors', children: SECTOR_LINKS },
+  { label: 'Tender Opportunities', href: '/tender-opportunities' },
   { label: 'Resources', href: '/resources' },
-  { label: 'FAQs', href: '/faqs' },
+  { label: 'Case Studies', href: '/results' },
+  { label: 'About', href: '/about' },
   { label: 'Contact', href: '/contact' },
 ];
 
@@ -22,6 +42,7 @@ export function Navbar() {
   const [location] = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [openMenu, setOpenMenu] = useState<string | null>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -36,73 +57,112 @@ export function Navbar() {
       }`}
     >
       <div className="container mx-auto px-4 xl:px-8">
-        <div className="flex h-16 items-center justify-between gap-4">
-          {/* Logo */}
-          <Link href="/" className="flex-shrink-0" data-testid="link-home-logo">
-            <img src="/logo.jpeg" alt="Dgeneris Bid & Tender Solutions" className="h-10 w-auto" />
+        <div className="flex h-16 items-center justify-between gap-3">
+          <Link href="/" className="flex-shrink-0 flex items-center gap-2" data-testid="link-home-logo">
+            <img src="/logo.jpeg" alt={BRAND_NAME} className="h-10 w-auto" />
+            <span className="hidden sm:inline font-semibold text-primary tracking-tight">
+              {BRAND_NAME}
+            </span>
           </Link>
 
-          {/* Desktop nav — visible from md (768 px) upward */}
-          <nav className="hidden md:flex items-center gap-x-1 lg:gap-x-3 xl:gap-x-5 flex-1 justify-center" data-testid="nav-desktop">
+          <nav className="hidden lg:flex items-center gap-1 flex-1 justify-center" data-testid="nav-desktop">
             {NAV_LINKS.map((link) => (
-              <div key={link.href} className="relative py-1">
+              <div
+                key={link.href}
+                className="relative py-1"
+                onMouseEnter={() => link.children && setOpenMenu(link.label)}
+                onMouseLeave={() => setOpenMenu(null)}
+              >
                 <Link
                   href={link.href}
-                  className={`whitespace-nowrap text-xs lg:text-sm font-medium transition-colors hover:text-primary px-1 py-1 block ${
-                    location === link.href ? 'text-primary' : 'text-foreground/80'
+                  className={`whitespace-nowrap text-sm font-medium transition-colors hover:text-secondary px-2 py-1 inline-flex items-center gap-1 ${
+                    location === link.href || location.startsWith(link.href + '/')
+                      ? 'text-secondary'
+                      : 'text-foreground/80'
                   }`}
-                  data-testid={`link-nav-${link.label.toLowerCase().replace(/\s+/g, '-')}`}
                 >
                   {link.label}
+                  {link.children ? <ChevronDown className="h-3.5 w-3.5" /> : null}
                 </Link>
-                {location === link.href && (
+                {location === link.href && !link.children && (
                   <motion.div
                     layoutId="nav-active-indicator"
-                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary rounded-full"
+                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-secondary rounded-full"
                     initial={false}
                     transition={{ type: 'spring', bounce: 0.2, duration: 0.4 }}
                   />
+                )}
+                {link.children && openMenu === link.label && (
+                  <div className="absolute left-0 top-full pt-2 z-50">
+                    <div className="min-w-[240px] rounded-lg border bg-card p-2 shadow-lg">
+                      {link.children.map((child) => (
+                        <Link
+                          key={child.href}
+                          href={child.href}
+                          className="block rounded-md px-3 py-2 text-sm text-foreground/80 hover:bg-muted hover:text-primary transition-colors"
+                        >
+                          {child.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
                 )}
               </div>
             ))}
           </nav>
 
-          {/* CTA button — desktop only */}
-          <Button
-            asChild
-            size="sm"
-            className="hidden md:inline-flex flex-shrink-0 bg-accent text-accent-foreground hover:bg-accent/90 text-xs lg:text-sm px-3 lg:px-4"
-            data-testid="button-book-consultation-desktop"
-          >
-            <Link href="/contact">BOOK A CONSULTATION</Link>
-          </Button>
+          <div className="hidden md:flex items-center gap-3 flex-shrink-0">
+            <a
+              href={PHONE_HREF}
+              className="hidden xl:inline-flex items-center gap-1.5 text-sm font-medium text-foreground/80 hover:text-secondary"
+            >
+              <Phone className="h-4 w-4" />
+              {PHONE_DISPLAY}
+            </a>
+            <Button asChild size="sm" className="bg-secondary text-secondary-foreground hover:bg-secondary/90">
+              <Link href={CTA.assess.href}>{CTA.assess.label}</Link>
+            </Button>
+          </div>
 
-          {/* Hamburger — phones only (below md) */}
           <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
-            <SheetTrigger asChild className="md:hidden">
+            <SheetTrigger asChild className="lg:hidden">
               <Button variant="ghost" size="icon" data-testid="button-mobile-menu">
                 <Menu className="h-5 w-5" />
                 <span className="sr-only">Toggle menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-[300px] sm:w-[400px]">
-              <nav className="flex flex-col space-y-4 mt-8" data-testid="nav-mobile">
+            <SheetContent side="right" className="w-[320px] sm:w-[400px] overflow-y-auto">
+              <div className="mt-6 mb-4">
+                <p className="font-semibold text-primary text-lg">{BRAND_NAME}</p>
+                <a href={PHONE_HREF} className="text-sm text-secondary font-medium">
+                  {PHONE_DISPLAY}
+                </a>
+              </div>
+              <nav className="flex flex-col gap-1" data-testid="nav-mobile">
                 {NAV_LINKS.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    onClick={() => setMobileOpen(false)}
-                    className={`text-base font-medium transition-colors hover:text-primary ${
-                      location === link.href ? 'text-primary' : 'text-foreground/80'
-                    }`}
-                    data-testid={`link-nav-mobile-${link.label.toLowerCase().replace(/\s+/g, '-')}`}
-                  >
-                    {link.label}
-                  </Link>
+                  <div key={link.href} className="border-b border-border/60 py-2">
+                    <Link
+                      href={link.href}
+                      onClick={() => setMobileOpen(false)}
+                      className="text-base font-medium text-foreground block py-1"
+                    >
+                      {link.label}
+                    </Link>
+                    {link.children?.map((child) => (
+                      <Link
+                        key={child.href}
+                        href={child.href}
+                        onClick={() => setMobileOpen(false)}
+                        className="block text-sm text-muted-foreground py-1.5 pl-3 hover:text-secondary"
+                      >
+                        {child.label}
+                      </Link>
+                    ))}
+                  </div>
                 ))}
-                <Button asChild className="bg-accent text-accent-foreground hover:bg-accent/90 mt-4" data-testid="button-book-consultation-mobile">
-                  <Link href="/contact" onClick={() => setMobileOpen(false)}>
-                    BOOK A CONSULTATION
+                <Button asChild className="bg-secondary text-secondary-foreground mt-4">
+                  <Link href={CTA.assess.href} onClick={() => setMobileOpen(false)}>
+                    {CTA.assess.label}
                   </Link>
                 </Button>
               </nav>

@@ -1,132 +1,56 @@
 import { Link, useParams } from 'wouter';
-import { motion } from 'framer-motion';
-import { Calendar, Tag, ArrowLeft } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { useGetBlogPost } from '@workspace/api-client-react';
-
-const fadeInUp = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0 },
-};
+import { STATIC_ARTICLES } from '@/pages/resources/static-articles';
+import { BRAND_NAME, CTA } from '@/lib/brand';
 
 export default function BlogPost() {
-  const params = useParams();
-  const slug = params.slug as string;
+  const params = useParams<{ slug: string }>();
+  const article = STATIC_ARTICLES.find((a) => a.slug === params.slug);
 
-  const { data: post, isLoading, error } = useGetBlogPost(slug);
-
-  if (isLoading) {
+  if (!article) {
     return (
-      <div className="min-h-[50vh] flex items-center justify-center">
-        <p className="text-muted-foreground" data-testid="text-blog-post-loading">Loading article...</p>
-      </div>
-    );
-  }
-
-  if (error || !post) {
-    return (
-      <div className="min-h-[50vh] flex items-center justify-center">
-        <Card className="max-w-md">
-          <CardContent className="p-12 text-center">
-            <h2 className="text-2xl font-bold mb-4" data-testid="text-blog-post-error-title">Article Not Found</h2>
-            <p className="text-muted-foreground mb-6">
-              The article you're looking for doesn't exist or has been removed.
-            </p>
-            <Button asChild data-testid="button-blog-post-back">
-              <Link href="/resources">Back to Resources</Link>
-            </Button>
-          </CardContent>
-        </Card>
-      </div>
+      <section className="py-24 container mx-auto px-4 text-center">
+        <h1 className="text-3xl font-bold text-primary mb-4">Article not found</h1>
+        <Button asChild variant="outline">
+          <Link href="/resources">Back to resources</Link>
+        </Button>
+      </section>
     );
   }
 
   return (
     <>
-      {/* Hero */}
-      <section className="bg-gradient-to-br from-primary to-secondary text-primary-foreground py-20">
-        <div className="container mx-auto px-4 lg:px-8">
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={fadeInUp}
-            className="max-w-4xl mx-auto"
-          >
-            <Link href="/resources" className="inline-flex items-center gap-2 text-sm text-primary-foreground/80 hover:text-primary-foreground mb-6" data-testid="link-blog-post-back">
-              <ArrowLeft className="h-4 w-4" />
-              Back to Resources
+      <section className="bg-primary text-primary-foreground py-12 md:py-16">
+        <div className="container mx-auto px-4 lg:px-8 max-w-3xl">
+          <p className="text-sm text-secondary mb-3 font-semibold">{article.category}</p>
+          <h1 className="text-3xl md:text-4xl font-bold mb-4">{article.title}</h1>
+          <p className="text-primary-foreground/80 text-sm">By {article.author}</p>
+        </div>
+      </section>
+      <article className="py-12 md:py-16">
+        <div className="container mx-auto px-4 lg:px-8 max-w-3xl">
+          <div className="space-y-5 text-foreground/85 leading-relaxed">
+            {article.content.map((para) => (
+              <p key={para.slice(0, 32)}>{para}</p>
+            ))}
+          </div>
+          <div className="mt-12 rounded-xl border bg-muted/40 p-6">
+            <h2 className="text-xl font-semibold text-primary mb-2">Need practical tender support?</h2>
+            <p className="text-sm text-muted-foreground mb-4">
+              {BRAND_NAME} can assess an opportunity, review a draft response or support a full submission.
+            </p>
+            <Button asChild className="bg-secondary text-secondary-foreground hover:bg-secondary/90">
+              <Link href={CTA.assess.href}>{CTA.assess.label}</Link>
+            </Button>
+          </div>
+          <Button asChild variant="ghost" className="mt-8">
+            <Link href="/resources">
+              <ArrowLeft className="h-4 w-4 mr-2" /> Back to resources
             </Link>
-            {post.category && (
-              <div className="inline-flex items-center gap-1 text-sm font-medium text-accent mb-4">
-                <Tag className="h-4 w-4" />
-                {post.category}
-              </div>
-            )}
-            <h1 className="text-4xl lg:text-5xl font-bold mb-6" data-testid="text-blog-post-title">
-              {post.title}
-            </h1>
-            <div className="flex items-center gap-2 text-sm text-primary-foreground/80">
-              <Calendar className="h-4 w-4" />
-              {post.publishedAt
-                ? new Date(post.publishedAt).toLocaleDateString('en-GB', {
-                    day: 'numeric',
-                    month: 'long',
-                    year: 'numeric',
-                  })
-                : new Date(post.createdAt).toLocaleDateString('en-GB', {
-                    day: 'numeric',
-                    month: 'long',
-                    year: 'numeric',
-                  })}
-            </div>
-          </motion.div>
+          </Button>
         </div>
-      </section>
-
-      {/* Article Content */}
-      <section className="py-20 bg-background">
-        <div className="container mx-auto px-4 lg:px-8">
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={fadeInUp}
-            className="max-w-3xl mx-auto"
-          >
-            <div className="prose prose-lg max-w-none" data-testid="text-blog-post-content">
-              <p className="lead text-xl text-muted-foreground mb-8">{post.excerpt}</p>
-              <div
-                className="text-foreground"
-                dangerouslySetInnerHTML={{ __html: post.content }}
-              />
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="py-16 bg-muted/30">
-        <div className="container mx-auto px-4 lg:px-8">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeInUp}
-          >
-            <Card className="max-w-2xl mx-auto text-center">
-              <CardContent className="p-8">
-                <h3 className="text-2xl font-bold mb-4">Need Expert Bid Support?</h3>
-                <p className="text-muted-foreground mb-6">
-                  Contact us to discuss how we can help you win your next public sector contract.
-                </p>
-                <Button asChild size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90" data-testid="button-blog-post-cta">
-                  <Link href="/contact">BOOK A CONSULTATION</Link>
-                </Button>
-              </CardContent>
-            </Card>
-          </motion.div>
-        </div>
-      </section>
+      </article>
     </>
   );
 }

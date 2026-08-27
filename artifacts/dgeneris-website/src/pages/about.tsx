@@ -45,7 +45,7 @@ export default function About() {
             className="max-w-3xl mx-auto text-center"
           >
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6" data-testid="text-about-hero-title">
-              About Dgeneris Bid & Tender Solutions
+              About Dgeneris Bids
             </h1>
             <p className="text-lg text-primary-foreground/90">
               Your trusted partner for winning public-sector contracts in the UK care and cleaning industries
@@ -70,7 +70,7 @@ export default function About() {
                 </h2>
                 <div className="prose prose-lg max-w-none">
                   <p className="text-muted-foreground leading-relaxed mb-4">
-                    Dgeneris Bid & Tender Solutions was founded to bridge a critical gap in the UK public procurement landscape. We saw capable, experienced care providers and cleaning businesses repeatedly losing out on public-sector contracts — not because they lacked quality or expertise, but because they struggled with the complex, time-consuming tendering process.
+                    Dgeneris Bids was founded to bridge a critical gap in the UK public procurement landscape. We saw capable, experienced care providers and cleaning businesses repeatedly losing out on public-sector contracts — not because they lacked quality or expertise, but because they struggled with the complex, time-consuming tendering process.
                   </p>
                   <p className="text-muted-foreground leading-relaxed mb-4">
                     Public procurement in the UK demands precise compliance, strategic positioning, and persuasive communication. For busy business owners running care homes, domiciliary services, or cleaning operations, finding the time and expertise to craft winning tender responses is a significant barrier.

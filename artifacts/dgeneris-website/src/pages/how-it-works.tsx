@@ -270,7 +270,7 @@ export default function HowItWorks() {
               Contact us today for a free consultation and let's discuss your tender opportunity.
             </p>
             <Button asChild size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90" data-testid="button-how-it-works-cta">
-              <Link href="/contact">BOOK A CONSULTATION</Link>
+              <Link href="/assess-my-tender">Get Your Tender Assessed</Link>
             </Button>
           </motion.div>
         </div>

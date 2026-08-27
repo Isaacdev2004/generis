@@ -120,7 +120,7 @@ export default function Results() {
         <div className="absolute inset-0 bg-primary/70 flex items-center justify-center">
           <div className="text-center text-primary-foreground px-4">
             <p className="text-2xl lg:text-3xl font-bold">&ldquo;Every winning bid starts with the right support.&rdquo;</p>
-            <p className="mt-2 text-primary-foreground/80">— Dgeneris Bid &amp; Tender Solutions</p>
+            <p className="mt-2 text-primary-foreground/80">— Dgeneris Bids</p>
           </div>
         </div>
       </section>

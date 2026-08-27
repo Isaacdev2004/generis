@@ -1,731 +1,446 @@
 import { Link } from 'wouter';
-import { motion } from 'framer-motion';
-import { CountUp } from '@/components/ui/count-up';
+import { motion, useReducedMotion } from 'framer-motion';
 import {
+  HeartHandshake,
+  Sparkles,
+  Search,
+  ClipboardCheck,
   FileSearch,
-  FileEdit,
-  FileCheck2,
-  Users,
+  ShieldCheck,
+  Scale,
   Target,
-  TrendingUp,
-  Shield,
-  Clock,
-  Award,
-  CheckCircle2,
-  BookOpen,
-  Phone,
-  Star,
-  Zap,
+  PenLine,
   Eye,
-  BadgeCheck,
+  Send,
+  ArrowRight,
+  Building2,
+  CheckCircle2,
+  XCircle,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+import { HeroCarousel } from '@/components/home/hero-carousel';
+import { BRAND_NAME, CTA } from '@/lib/brand';
 import { useListTestimonials } from '@workspace/api-client-react';
 
-const SERVICES = [
-  {
-    icon: FileSearch,
-    title: 'Tender Research & Opportunity Identification',
-    description: 'We monitor UK procurement portals and identify relevant tender opportunities that match your business capabilities.',
-  },
-  {
-    icon: FileEdit,
-    title: 'Bid Writing & Tender Response',
-    description: 'Professional bid writing services that showcase your strengths and meet all tender requirements with compelling, compliant submissions.',
-  },
-  {
-    icon: FileCheck2,
-    title: 'Tender Review & Quality Assurance',
-    description: 'Expert review of your draft tender submissions to ensure quality, compliance, and competitiveness before submission.',
-  },
-  {
-    icon: Target,
-    title: 'PQQ/SQ Support',
-    description: 'Assistance with Pre-Qualification Questionnaires and Selection Questionnaires to pass the first stage of tender processes.',
-  },
-  {
-    icon: Users,
-    title: 'Framework Applications',
-    description: 'Support with applications to public sector frameworks that open doors to multiple contract opportunities.',
-  },
-  {
-    icon: BookOpen,
-    title: 'Policy & Procedure Development',
-    description: 'Creation of robust policies and procedures required for tender submissions and contract delivery.',
-  },
-  {
-    icon: TrendingUp,
-    title: 'Bid Strategy Consultancy',
-    description: 'Strategic advice on which tenders to pursue, pricing strategies, and competitive positioning.',
-  },
-  {
-    icon: Award,
-    title: 'Social Value & Environmental Responses',
-    description: 'Expert support with social value commitments and environmental sustainability sections increasingly required in public tenders.',
-  },
-  {
-    icon: Shield,
-    title: 'Compliance Documentation',
-    description: 'Preparation of compliance documents including insurance certificates, accreditations, and regulatory evidence.',
-  },
-  {
-    icon: Clock,
-    title: 'Monthly Retainer Support',
-    description: 'Ongoing bid support with priority access, strategic planning, and continuous tender monitoring.',
-  },
-];
-
-const TRUST_BADGES = [
-  'UK Tender Specialists',
-  'Care and Cleaning Sector Focus',
-  'Clear and Transparent Process',
-  'Confidential Service',
-  'End-to-End Bid Support',
-];
-
-const STATS = [
-  { num: 100, suffix: '+', label: 'Tender Opportunities Reviewed' },
-  { num: 50, suffix: '+', label: 'Bid Submissions Supported' },
-  { num: 2, suffix: '', label: 'Specialist Sectors' },
-  { num: 90, suffix: '%', label: 'Repeat & Referral Clients' },
-];
-
-const PROCESS_STEPS = [
-  { title: 'Initial Consultation', description: 'Free consultation to understand your needs and goals' },
-  { title: 'Opportunity Identification', description: 'We identify suitable tender opportunities for your business' },
-  { title: 'Bid Strategy', description: 'Develop a winning strategy tailored to the tender requirements' },
-  { title: 'Content Development', description: 'Professional writing and document preparation' },
-  { title: 'Quality Review & Submission', description: 'Final checks and timely submission to procurement portals' },
-];
-
-const WHY_CHOOSE = [
-  {
-    icon: Star,
-    title: 'Sector Specialists, Not Generalists',
-    description: 'We work exclusively with UK care and cleaning businesses. Every framework, every buyer, every scoring methodology in your sector — we know it inside out.',
-  },
-  {
-    icon: Eye,
-    title: 'You Stay in Control',
-    description: 'You review and approve every word before submission. We write the bid; you understand what you\'re committing to. No black boxes, no surprises.',
-  },
-  {
-    icon: Zap,
-    title: 'We Handle Everything',
-    description: 'From finding the right tender to final submission — we manage the entire process so you can focus on running your services, not wrestling with procurement portals.',
-  },
-  {
-    icon: BadgeCheck,
-    title: 'Transparent, Honest Pricing',
-    description: 'Fixed-scope pricing with no hidden fees. We tell you exactly what\'s included before any work begins, and we don\'t push you towards tenders you\'re unlikely to win.',
-  },
-];
-
-const FRAMEWORKS = [
-  'EEM (Efficiency East Midlands)',
-  'YPO Framework',
-  'Crown Commercial Service',
-  'NHS Supply Chain',
-  'Contracts Finder',
-  'Find a Tender Service',
-  'Local Authority Frameworks',
-  'Care Quality Commission',
-];
-
-const fadeInUp = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0 },
-};
-
-const containerVariants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.1 } },
-};
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 28 },
+const fade = {
+  hidden: { opacity: 0, y: 24 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
 };
 
+const METHOD = [
+  { step: '01', title: 'Discover', body: 'Identify relevant tender and procurement opportunities.', icon: Search },
+  { step: '02', title: 'Qualify', body: 'Assess eligibility, capability, geography, capacity and commercial fit.', icon: ClipboardCheck },
+  { step: '03', title: 'Decode', body: 'Analyse the specification, requirements and evaluation criteria.', icon: FileSearch },
+  { step: '04', title: 'Strategise', body: 'Develop the bid strategy and evidence plan.', icon: Target },
+  { step: '05', title: 'Write', body: 'Create clear, compliant, evaluator-focused responses.', icon: PenLine },
+  { step: '06', title: 'Red Team', body: 'Critically review the submission before the evaluator does.', icon: Eye },
+  { step: '07', title: 'Submit & Improve', body: 'Final checks, submission support and learning from outcomes.', icon: Send },
+];
+
+const WHO = [
+  { title: 'Care Providers', href: '/sectors/care', icon: HeartHandshake },
+  { title: 'Domiciliary Care Agencies', href: '/sectors/care', icon: HeartHandshake },
+  { title: 'Supported Living Providers', href: '/sectors/care', icon: HeartHandshake },
+  { title: 'Residential Care Providers', href: '/sectors/care', icon: HeartHandshake },
+  { title: 'Cleaning Companies', href: '/sectors/cleaning', icon: Sparkles },
+  { title: 'School Cleaning Contractors', href: '/sectors/cleaning', icon: Sparkles },
+  { title: 'Healthcare Cleaning Providers', href: '/sectors/cleaning', icon: Sparkles },
+  { title: 'Facilities Management Businesses', href: '/sectors/cleaning', icon: Sparkles },
+];
+
+const PILLARS = [
+  { title: 'Sector Specialisation', body: 'Focused on UK care and cleaning tendering.' },
+  { title: 'Buyer-Focused', body: 'Responses aligned with published evaluation criteria.' },
+  { title: 'Evidence-Led', body: 'Important claims supported by relevant evidence.' },
+  { title: 'Compliance-First', body: 'Requirements checked carefully before submission.' },
+  { title: 'Strategic', body: 'We assess whether the opportunity is worth pursuing.' },
+  { title: 'End-to-End', body: 'Support from discovery through to submission.' },
+];
+
+const ALONE = [
+  'Finding tenders yourself',
+  'Reading specifications',
+  'Checking eligibility',
+  'Building evidence',
+  'Writing responses',
+  'Managing deadlines',
+  'Checking compliance',
+  'Reviewing scoring criteria',
+];
+
+const WITH_US = [
+  'Opportunity discovery',
+  'Eligibility assessment',
+  'Bid strategy',
+  'Evidence mapping',
+  'Professional writing',
+  'Compliance checks',
+  'Red-team review',
+  'Submission support',
+];
+
+const CARE_SCORE = ['Safeguarding', 'Person-centred care', 'Staffing', 'Training', 'Quality', 'Outcomes', 'Risk', 'Continuity', 'CQC readiness', 'Social value', 'Mobilisation'];
+const CLEAN_SCORE = ['Methodology', 'Staffing', 'TUPE', 'COSHH', 'Quality assurance', 'Health & Safety', 'Environmental management', 'Mobilisation', 'KPIs', 'Social value'];
+
 export default function Home() {
+  const reduceMotion = useReducedMotion();
   const { data: testimonialsData } = useListTestimonials();
   const testimonials = Array.isArray(testimonialsData) ? testimonialsData : [];
 
-
   return (
     <>
-      {/* Hero Section */}
-      <section className="relative text-primary-foreground py-12 sm:py-20 lg:py-32 overflow-hidden">
-        <img
-          src="/stock/hero.jpg"
-          alt="Professional business meeting"
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-primary/85" />
-        <div className="relative container mx-auto px-4 lg:px-8">
-          <div className="max-w-4xl mx-auto text-center">
-            {/* Social proof badge */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0 }}
-            >
-              <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 mb-8">
-                <div className="flex">
-                  {[1,2,3,4,5].map(n => (
-                    <Star key={n} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                  ))}
-                </div>
-                <span className="text-sm font-medium text-primary-foreground/90">
-                  Trusted by care &amp; cleaning businesses across the UK
-                </span>
-              </div>
-            </motion.div>
+      <HeroCarousel />
 
-            <motion.h1
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.15 }}
-              className="text-3xl sm:text-4xl lg:text-6xl font-bold mb-6 leading-tight"
-              data-testid="text-hero-title"
-            >
-              Stop Losing Contracts to{' '}
-              <span className="text-accent">Better-Written Bids</span>
-            </motion.h1>
+      {/* Trust */}
+      <section className="border-b bg-card">
+        <div className="container mx-auto px-4 lg:px-8 py-8 flex flex-col md:flex-row md:items-center gap-6 md:gap-10">
+          <div className="flex items-center gap-3">
+            <Building2 className="h-8 w-8 text-secondary" />
+            <div>
+              <p className="font-semibold text-primary">UK Registered Company</p>
+              <p className="text-sm text-muted-foreground">Professional UK Bid &amp; Tender Support</p>
+            </div>
+          </div>
+          <p className="text-sm text-muted-foreground max-w-3xl leading-relaxed">
+            {BRAND_NAME} supports care providers, cleaning businesses and SMEs through discovery, qualification, strategy, writing and review — so operational expertise becomes evaluator-ready evidence.
+          </p>
+        </div>
+      </section>
 
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.28 }}
-              className="text-lg lg:text-xl mb-8 text-primary-foreground/90 max-w-3xl mx-auto"
-              data-testid="text-hero-subtitle"
-            >
-              We handle the entire tender process for UK care and cleaning businesses — finding the right opportunities, writing compelling bids, and submitting on time — so you can focus on running your services.
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              className="flex flex-col sm:flex-row gap-4 justify-center mb-6"
-            >
-              <Button asChild size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 font-semibold" data-testid="button-hero-get-started">
-                <Link href="/contact">BOOK A FREE CONSULTATION</Link>
-              </Button>
-              <Button asChild size="lg" variant="outline" className="border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary" data-testid="button-hero-discover-services">
-                <Link href="/results">SEE OUR RESULTS</Link>
-              </Button>
-            </motion.div>
-
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.52 }}
-              className="text-sm text-primary-foreground/70"
-            >
-              Free initial consultation &nbsp;·&nbsp; Confidential service &nbsp;·&nbsp; UK specialists
-            </motion.p>
-
-            {/* Floating stat cards */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.65 }}
-              className="grid grid-cols-3 gap-3 mt-8"
-            >
-              {[
-                { num: 50, suffix: '+', label: 'Bids Submitted' },
-                { num: 2, suffix: '', label: 'Contract Wins' },
-                { num: 90, suffix: '%', label: 'Repeat Clients' },
-              ].map((stat) => (
-                <div key={stat.label} className="bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl px-3 py-4 text-center">
-                  <CountUp to={stat.num} suffix={stat.suffix} className="text-xl sm:text-2xl font-bold text-accent block" />
-                  <div className="text-xs text-primary-foreground/80 mt-1 leading-tight">{stat.label}</div>
-                </div>
-              ))}
-            </motion.div>
+      {/* Who we help */}
+      <section className="py-16 md:py-20">
+        <div className="container mx-auto px-4 lg:px-8">
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fade} className="max-w-2xl mb-10">
+            <h2 className="text-3xl md:text-4xl font-bold text-primary mb-3">Who We Help</h2>
+            <p className="text-muted-foreground text-lg">
+              If you deliver care or cleaning services in the UK and want to compete for public-sector work, this is for you.
+            </p>
+          </motion.div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {WHO.map((item) => (
+              <Link
+                key={item.title}
+                href={item.href}
+                className="group rounded-xl border bg-card p-5 hover:border-secondary/50 hover:shadow-md transition-all"
+              >
+                <item.icon className="h-6 w-6 text-secondary mb-3" />
+                <p className="font-semibold text-primary group-hover:text-secondary transition-colors">{item.title}</p>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Trust Strip */}
-      <section className="bg-muted py-4 overflow-hidden">
-        <div className="flex gap-8 animate-marquee whitespace-nowrap">
-          {[...TRUST_BADGES, ...TRUST_BADGES].map((badge, i) => (
-            <div key={i} className="flex items-center gap-2 px-4">
-              <CheckCircle2 className="h-4 w-4 text-primary flex-shrink-0" />
-              <span className="text-sm font-medium text-foreground">{badge}</span>
-            </div>
-          ))}
+      {/* Problem */}
+      <section className="py-16 md:py-20 bg-muted/50">
+        <div className="container mx-auto px-4 lg:px-8 grid lg:grid-cols-2 gap-10 items-center">
+          <div>
+            <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">The Problem</h2>
+            <p className="text-muted-foreground text-lg leading-relaxed mb-4">
+              Strong operational businesses often lose procurement opportunities because their expertise is not translated into compliant, evidence-led, evaluator-focused responses.
+            </p>
+            <p className="text-muted-foreground leading-relaxed">
+              Specifications are dense. Deadlines are tight. Evaluation criteria reward clarity and proof — not unspoken capability.
+            </p>
+          </div>
+          <img src="/stock/consultant.jpg" alt="Bid consultant reviewing tender documents" className="rounded-2xl w-full h-72 object-cover" loading="lazy" />
         </div>
       </section>
 
-      {/* Frameworks Strip */}
-      <section className="py-10 bg-background border-b">
+      {/* Method */}
+      <section className="py-16 md:py-24">
         <div className="container mx-auto px-4 lg:px-8">
-          <p className="text-center text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-6">
-            We've Won Contracts On These Frameworks & Portals
-          </p>
-          <div className="flex flex-wrap justify-center gap-3">
-            {FRAMEWORKS.map((fw) => (
-              <span
-                key={fw}
-                className="px-4 py-2 rounded-full border border-primary/20 bg-primary/5 text-sm font-medium text-primary"
+          <div className="max-w-2xl mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-primary mb-3">The {BRAND_NAME} Tender Method</h2>
+            <p className="text-muted-foreground text-lg">
+              Discover → Qualify → Strategise → Write → Review → Submit → Improve
+            </p>
+          </div>
+          <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-4">
+            {METHOD.map((m, i) => (
+              <motion.div
+                key={m.step}
+                initial={reduceMotion ? false : { opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-40px' }}
+                transition={{ delay: i * 0.05, duration: 0.4 }}
+                className="rounded-xl border bg-card p-5 hover:-translate-y-0.5 hover:shadow-md transition-all"
               >
-                {fw}
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-xs font-bold tracking-widest text-secondary">{m.step}</span>
+                  <m.icon className="h-5 w-5 text-accent" />
+                </div>
+                <h3 className="font-semibold text-lg text-primary mb-2">{m.title}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">{m.body}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Care + Cleaning */}
+      <section className="py-16 md:py-20 bg-primary text-primary-foreground">
+        <div className="container mx-auto px-4 lg:px-8 grid lg:grid-cols-2 gap-8">
+          <div className="rounded-2xl bg-white/5 border border-white/10 p-8">
+            <h2 className="text-2xl md:text-3xl font-bold mb-3">Care Tender Services</h2>
+            <p className="text-primary-foreground/80 mb-5 leading-relaxed">
+              Support for domiciliary care, supported living, residential and nursing care, reablement, day services and community support — covering safeguarding, staffing, outcomes, mobilisation and social value.
+            </p>
+            <Button asChild className="bg-secondary text-secondary-foreground hover:bg-secondary/90">
+              <Link href="/sectors/care">Explore Care Tendering</Link>
+            </Button>
+          </div>
+          <div className="rounded-2xl bg-white/5 border border-white/10 p-8">
+            <h2 className="text-2xl md:text-3xl font-bold mb-3">Cleaning &amp; FM Tenders</h2>
+            <p className="text-primary-foreground/80 mb-5 leading-relaxed">
+              Support for commercial, school, healthcare, NHS, council and housing association cleaning — including TUPE, COSHH, method statements, KPIs and mobilisation planning.
+            </p>
+            <Button asChild className="bg-accent text-accent-foreground hover:bg-accent/90">
+              <Link href="/sectors/cleaning">Explore Cleaning Tendering</Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Readiness + Assess */}
+      <section className="py-16 md:py-20">
+        <div className="container mx-auto px-4 lg:px-8 grid lg:grid-cols-2 gap-6">
+          <div className="rounded-2xl border bg-card p-8">
+            <ShieldCheck className="h-8 w-8 text-secondary mb-4" />
+            <h2 className="text-2xl font-bold text-primary mb-3">Are You Tender Ready?</h2>
+            <p className="text-muted-foreground mb-6 leading-relaxed">
+              Check policies, capacity, experience and systems before you invest in a submission. Indicative scoring — not an official procurement decision.
+            </p>
+            <Button asChild className="bg-secondary text-secondary-foreground hover:bg-secondary/90">
+              <Link href={CTA.readiness.href}>{CTA.readiness.label}</Link>
+            </Button>
+          </div>
+          <div className="rounded-2xl border bg-card p-8">
+            <Scale className="h-8 w-8 text-accent mb-4" />
+            <h2 className="text-2xl font-bold text-primary mb-3">Have You Found a Tender?</h2>
+            <p className="text-muted-foreground mb-6 leading-relaxed">
+              Before you spend time and resources preparing a bid, let {BRAND_NAME} help you determine whether the opportunity is worth pursuing.
+            </p>
+            <Button asChild className="bg-primary text-primary-foreground hover:bg-primary/90">
+              <Link href={CTA.assess.href}>Assess My Tender</Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Opportunities teaser */}
+      <section className="py-16 bg-muted/40">
+        <div className="container mx-auto px-4 lg:px-8 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+          <div className="max-w-2xl">
+            <h2 className="text-3xl font-bold text-primary mb-3">Tender Opportunities</h2>
+            <p className="text-muted-foreground text-lg">
+              Explore how we match care and cleaning opportunities — then ask us to assess fit before you bid.
+            </p>
+          </div>
+          <Button asChild size="lg" className="bg-secondary text-secondary-foreground hover:bg-secondary/90">
+            <Link href="/tender-opportunities">{CTA.opportunities.label}</Link>
+          </Button>
+        </div>
+      </section>
+
+      {/* Alone vs us */}
+      <section className="py-16 md:py-24">
+        <div className="container mx-auto px-4 lg:px-8">
+          <h2 className="text-3xl md:text-4xl font-bold text-primary mb-10 text-center">
+            Tendering Alone vs Working With {BRAND_NAME}
+          </h2>
+          <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+            <div className="rounded-2xl border p-7 bg-card">
+              <h3 className="font-semibold text-xl mb-4 flex items-center gap-2">
+                <XCircle className="h-5 w-5 text-muted-foreground" /> Doing It Alone
+              </h3>
+              <ul className="space-y-3">
+                {ALONE.map((item) => (
+                  <li key={item} className="text-sm text-muted-foreground flex gap-2">
+                    <span className="text-muted-foreground/50">•</span> {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="rounded-2xl border border-secondary/30 bg-secondary/5 p-7">
+              <h3 className="font-semibold text-xl mb-4 flex items-center gap-2 text-primary">
+                <CheckCircle2 className="h-5 w-5 text-secondary" /> Working With {BRAND_NAME}
+              </h3>
+              <ul className="space-y-3">
+                {WITH_US.map((item) => (
+                  <li key={item} className="text-sm text-foreground/80 flex gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-accent mt-0.5 flex-shrink-0" /> {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* What buyers score */}
+      <section className="py-16 md:py-20 bg-primary text-primary-foreground">
+        <div className="container mx-auto px-4 lg:px-8">
+          <h2 className="text-3xl md:text-4xl font-bold mb-3">What Buyers Actually Score</h2>
+          <p className="text-primary-foreground/80 mb-10 max-w-2xl">
+            Evaluation criteria vary by tender — but these themes appear repeatedly in care and cleaning procurement.
+          </p>
+          <div className="grid lg:grid-cols-2 gap-8">
+            <div>
+              <h3 className="font-semibold text-xl mb-4 text-secondary">Care</h3>
+              <div className="flex flex-wrap gap-2">
+                {CARE_SCORE.map((t) => (
+                  <span key={t} className="rounded-full bg-white/10 px-3 py-1.5 text-sm">{t}</span>
+                ))}
+              </div>
+            </div>
+            <div>
+              <h3 className="font-semibold text-xl mb-4 text-accent">Cleaning</h3>
+              <div className="flex flex-wrap gap-2">
+                {CLEAN_SCORE.map((t) => (
+                  <span key={t} className="rounded-full bg-white/10 px-3 py-1.5 text-sm">{t}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Why */}
+      <section className="py-16 md:py-24">
+        <div className="container mx-auto px-4 lg:px-8">
+          <h2 className="text-3xl md:text-4xl font-bold text-primary mb-10">Why {BRAND_NAME}</h2>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {PILLARS.map((p, i) => (
+              <motion.div
+                key={p.title}
+                initial={reduceMotion ? false : { opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.05 }}
+                className="rounded-xl border bg-card p-6"
+              >
+                <p className="text-xs font-bold text-secondary mb-2">0{i + 1}</p>
+                <h3 className="font-semibold text-lg text-primary mb-2">{p.title}</h3>
+                <p className="text-sm text-muted-foreground">{p.body}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* No-bid */}
+      <section className="py-16 bg-muted/50">
+        <div className="container mx-auto px-4 lg:px-8 max-w-4xl">
+          <h2 className="text-3xl font-bold text-primary mb-4">Not Every Tender Is Worth Bidding</h2>
+          <p className="text-muted-foreground text-lg mb-6 leading-relaxed">
+            {BRAND_NAME} considers eligibility, capability, contract size, geography, capacity, experience, requirements, competition, commercial viability and strategic fit.
+          </p>
+          <div className="flex flex-wrap gap-3">
+            {['BID', 'BID WITH CONDITIONS', 'NO-BID'].map((label) => (
+              <span key={label} className="rounded-lg border bg-card px-4 py-2 text-sm font-semibold text-primary">
+                {label}
               </span>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="py-10 md:py-16 bg-background">
-        <div className="container mx-auto px-4 lg:px-8">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-            {STATS.map((stat, i) => (
-              <motion.div
-                key={stat.label}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                variants={fadeInUp}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="text-center"
-              >
-                <div className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary mb-2" data-testid={`text-stat-value-${i}`}>
-                  <CountUp to={stat.num} suffix={stat.suffix} />
-                </div>
-                <div className="text-sm text-muted-foreground" data-testid={`text-stat-label-${i}`}>
-                  {stat.label}
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Problem vs Solution */}
-      <section className="py-12 md:py-20 bg-muted/30">
-        <div className="container mx-auto px-4 lg:px-8">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeInUp}
-            className="text-center mb-12"
-          >
-            <h2 className="text-3xl lg:text-4xl font-bold mb-4">
-              Tendering Alone vs <span className="text-accent">Working With Us</span>
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Most care and cleaning businesses lose contracts not because they can't deliver — but because their bid doesn't reflect how good they really are.
+      {/* Red team */}
+      <section className="py-16 md:py-20">
+        <div className="container mx-auto px-4 lg:px-8 grid lg:grid-cols-2 gap-10 items-center">
+          <img src="/stock/bidwrite.jpg" alt="Reviewing a tender response" className="rounded-2xl w-full h-72 object-cover" loading="lazy" />
+          <div>
+            <h2 className="text-3xl font-bold text-primary mb-4">Red-Team Your Tender Before the Evaluator Does</h2>
+            <p className="text-muted-foreground mb-6 leading-relaxed">
+              We stress-test compliance, evaluation alignment, evidence strength, clarity, unsupported claims and scoring risk before you submit.
             </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-            {/* Without Dgeneris */}
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeInUp}
-              transition={{ duration: 0.5 }}
-            >
-              <Card className="h-full border-red-200 bg-red-50/50 dark:bg-red-950/10">
-                <CardContent className="p-8">
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center">
-                      <span className="text-red-500 font-bold text-sm">✗</span>
-                    </div>
-                    <h3 className="font-bold text-lg text-red-700 dark:text-red-400">Going It Alone</h3>
-                  </div>
-                  <ul className="space-y-3">
-                    {[
-                      'Hours spent deciphering procurement jargon',
-                      'Missed deadlines due to complex portal requirements',
-                      'Generic responses that fail to score well',
-                      'No idea which tenders are worth pursuing',
-                      'Social value and sustainability sections left weak',
-                      'Feedback after a loss, but no one to help interpret it',
-                    ].map((item) => (
-                      <li key={item} className="flex items-start gap-3">
-                        <span className="text-red-400 mt-0.5 flex-shrink-0">✗</span>
-                        <span className="text-sm text-muted-foreground">{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            {/* With Dgeneris */}
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeInUp}
-              transition={{ duration: 0.5, delay: 0.15 }}
-            >
-              <Card className="h-full border-accent/30 bg-accent/5">
-                <CardContent className="p-8">
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center">
-                      <span className="text-accent font-bold text-sm">✓</span>
-                    </div>
-                    <h3 className="font-bold text-lg text-primary">With Dgeneris</h3>
-                  </div>
-                  <ul className="space-y-3">
-                    {[
-                      'We handle all research, writing, and portal submission',
-                      'Deadlines tracked and managed — nothing missed',
-                      'Tailored responses built around your real strengths',
-                      'We filter opportunities — only pursue ones worth winning',
-                      'Compelling social value and ESG sections included',
-                      'Full debrief after every outcome to sharpen future bids',
-                    ].map((item) => (
-                      <li key={item} className="flex items-start gap-3">
-                        <CheckCircle2 className="h-4 w-4 text-accent mt-0.5 flex-shrink-0" />
-                        <span className="text-sm text-foreground font-medium">{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* Why Choose Dgeneris */}
-      <section className="py-12 md:py-20 bg-background">
-        <div className="container mx-auto px-4 lg:px-8">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeInUp}
-            className="text-center mb-12"
-          >
-            <h2 className="text-3xl lg:text-4xl font-bold mb-4">
-              Why Choose <span className="text-accent">Dgeneris?</span>
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              What makes us different from other bid consultancies — and why care and cleaning businesses trust us with their contracts.
-            </p>
-          </motion.div>
-
-          <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto"
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-          >
-            {WHY_CHOOSE.map((item) => (
-              <motion.div
-                key={item.title}
-                variants={cardVariants}
-                whileHover={{ y: -5, transition: { duration: 0.2 } }}
-              >
-                <Card className="h-full border-l-4 border-l-accent hover:shadow-lg transition-shadow">
-                  <CardContent className="p-6 flex gap-5">
-                    <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center">
-                      <item.icon className="h-6 w-6 text-accent" />
-                    </div>
-                    <div>
-                      <h3 className="font-bold text-lg mb-2 text-primary">{item.title}</h3>
-                      <p className="text-sm text-muted-foreground leading-relaxed">{item.description}</p>
-                    </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Services Overview */}
-      <section className="py-12 md:py-20 bg-background">
-        <div className="container mx-auto px-4 lg:px-8">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeInUp}
-            className="text-center mb-12"
-          >
-            <h2 className="text-3xl lg:text-4xl font-bold mb-4" data-testid="text-services-title">
-              Our Bid & Tender Services
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Comprehensive support across every stage of the tendering process
-            </p>
-          </motion.div>
-
-          <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-          >
-            {SERVICES.map((service, i) => (
-              <motion.div
-                key={service.title}
-                variants={cardVariants}
-                whileHover={{ y: -5, transition: { duration: 0.2 } }}
-              >
-                <Card className="h-full hover:shadow-lg transition-shadow hover:border-primary/50" data-testid={`card-service-${i}`}>
-                  <CardContent className="p-6">
-                    <service.icon className="h-10 w-10 text-accent mb-4" />
-                    <h3 className="font-semibold text-lg mb-2">{service.title}</h3>
-                    <p className="text-sm text-muted-foreground">{service.description}</p>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
-          </motion.div>
-
-          <div className="text-center mt-12">
-            <Button asChild size="lg" variant="outline" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground" data-testid="button-view-all-services">
-              <Link href="/services">VIEW ALL SERVICES</Link>
+            <Button asChild className="bg-secondary text-secondary-foreground hover:bg-secondary/90">
+              <Link href={CTA.redTeam.href}>{CTA.redTeam.label}</Link>
             </Button>
           </div>
         </div>
       </section>
 
-      {/* Who We Support */}
-      <section className="py-12 md:py-20 bg-background">
+      {/* Weak vs strong */}
+      <section className="py-16 md:py-20 bg-card border-y">
         <div className="container mx-auto px-4 lg:px-8">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeInUp}
-            className="text-center mb-12"
-          >
-            <h2 className="text-3xl lg:text-4xl font-bold mb-4" data-testid="text-sectors-title">
-              Who We Support
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Specialist expertise in two high-value public procurement sectors
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-            <Card className="hover:shadow-lg transition-all overflow-hidden" data-testid="card-sector-care">
-              <div className="h-48 overflow-hidden">
-                <img src="/stock/care.jpg" alt="Care worker supporting a client" className="w-full h-full object-cover" />
-              </div>
-              <CardContent className="p-8">
-                <h3 className="font-bold text-2xl mb-4 text-primary">Health & Social Care</h3>
-                <ul className="space-y-2">
-                  {[
-                    'Residential care homes',
-                    'Nursing homes',
-                    'Domiciliary care providers',
-                    'Supported living services',
-                    'Day care centers',
-                    'Respite care facilities',
-                  ].map((item) => (
-                    <li key={item} className="flex items-start gap-2">
-                      <CheckCircle2 className="h-5 w-5 text-accent flex-shrink-0 mt-0.5" />
-                      <span className="text-sm">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </CardContent>
-            </Card>
-
-            <Card className="hover:shadow-lg transition-all overflow-hidden" data-testid="card-sector-cleaning">
-              <div className="h-48 overflow-hidden">
-                <img src="/stock/cleaning.jpg" alt="Professional commercial cleaning" className="w-full h-full object-cover" />
-              </div>
-              <CardContent className="p-8">
-                <h3 className="font-bold text-2xl mb-4 text-primary">Cleaning Services</h3>
-                <ul className="space-y-2">
-                  {[
-                    'Commercial office cleaning',
-                    'Public building maintenance',
-                    'School and education facilities',
-                    'Healthcare facility cleaning',
-                    'Local authority contracts',
-                    'Specialist deep cleaning',
-                  ].map((item) => (
-                    <li key={item} className="flex items-start gap-2">
-                      <CheckCircle2 className="h-5 w-5 text-accent flex-shrink-0 mt-0.5" />
-                      <span className="text-sm">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </CardContent>
-            </Card>
-          </div>
-
-          <div className="text-center mt-12">
-            <Button asChild size="lg" variant="outline" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground" data-testid="button-explore-sectors">
-              <Link href="/sectors">EXPLORE SECTORS</Link>
-            </Button>
-          </div>
-        </div>
-      </section>
-
-      {/* How It Works Preview */}
-      <section className="py-12 md:py-20 bg-muted/30">
-        <div className="container mx-auto px-4 lg:px-8">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeInUp}
-            className="text-center mb-12"
-          >
-            <h2 className="text-3xl lg:text-4xl font-bold mb-4" data-testid="text-process-title">
-              Our Proven Process
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              A structured, transparent approach to winning public sector contracts
-            </p>
-          </motion.div>
-
-          <div className="max-w-4xl mx-auto">
-            <div className="space-y-6">
-              {PROCESS_STEPS.map((step, i) => (
-                <motion.div
-                  key={step.title}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true }}
-                  variants={fadeInUp}
-                  transition={{ duration: 0.5, delay: i * 0.1 }}
-                  className="flex gap-3 sm:gap-4"
-                  data-testid={`card-process-step-${i}`}
-                >
-                  <div className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-accent text-accent-foreground flex items-center justify-center font-bold text-base sm:text-lg">
-                    {i + 1}
-                  </div>
-                  <div className="pt-1">
-                    <h3 className="font-semibold text-base sm:text-lg mb-1">{step.title}</h3>
-                    <p className="text-sm text-muted-foreground">{step.description}</p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-
-          <div className="text-center mt-12">
-            <Button asChild size="lg" variant="outline" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground" data-testid="button-learn-process">
-              <Link href="/how-it-works">LEARN THE FULL PROCESS</Link>
-            </Button>
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials */}
-      {testimonials.length > 0 && (
-        <section className="py-12 md:py-20 bg-muted/30">
-          <div className="container mx-auto px-4 lg:px-8">
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeInUp}
-              className="text-center mb-12"
-            >
-              <h2 className="text-3xl lg:text-4xl font-bold mb-4" data-testid="text-testimonials-title">
-                What Our Clients Say
-              </h2>
-              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                Care providers and cleaning businesses across the UK trust us to win contracts
+          <h2 className="text-3xl font-bold text-primary mb-3">Weak vs Strong Bid Responses</h2>
+          <p className="text-sm text-muted-foreground mb-8 max-w-2xl">
+            Illustrative scores only — not actual evaluator scores. Strong answers follow Claim → Method → Evidence → Measurement → Outcome.
+          </p>
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="rounded-xl border p-6">
+              <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground mb-2">Generic response</p>
+              <p className="text-sm text-muted-foreground mb-4 italic">
+                “We provide high-quality care and always put service users first…”
               </p>
-            </motion.div>
+              <p className="font-semibold text-primary">Illustrative score: 4/10</p>
+            </div>
+            <div className="rounded-xl border border-accent/30 bg-accent/5 p-6">
+              <p className="text-xs font-bold uppercase tracking-wide text-accent mb-2">Evidence-led response</p>
+              <p className="text-sm text-foreground/80 mb-4 italic">
+                “We deliver person-centred support through named keyworkers, monthly outcome reviews and documented safeguarding pathways, measured against agreed KPIs…”
+              </p>
+              <p className="font-semibold text-primary">Illustrative score: 9/10</p>
+            </div>
+          </div>
+        </div>
+      </section>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
-              {testimonials.slice(0, 6).map((testimonial, i) => (
-                <motion.div
-                  key={testimonial.id}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true }}
-                  variants={fadeInUp}
-                  transition={{ duration: 0.5, delay: (i % 3) * 0.1 }}
-                >
-                  <Card className="h-full hover:shadow-md transition-shadow" data-testid={`card-testimonial-${testimonial.id}`}>
-                    <CardContent className="p-6 flex flex-col h-full">
-                      {/* Stars */}
-                      <div className="flex gap-0.5 mb-4">
-                        {[...Array(5)].map((_, s) => (
-                          <svg key={s} className="h-4 w-4 text-yellow-400 fill-yellow-400" viewBox="0 0 20 20">
-                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                          </svg>
-                        ))}
-                      </div>
-                      {/* Quote */}
-                      <p className="text-sm leading-relaxed italic text-foreground/80 flex-1 mb-5">
-                        &ldquo;{testimonial.quote}&rdquo;
-                      </p>
-                      {/* Author */}
-                      <div className="border-t pt-4 flex items-center gap-3">
-                        <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                          <span className="text-sm font-bold text-primary">
-                            {testimonial.clientName.charAt(0)}
-                          </span>
-                        </div>
-                        <div>
-                          <p className="font-semibold text-sm">{testimonial.clientName}</p>
-                          <p className="text-xs text-muted-foreground">{testimonial.companyName}</p>
-                        </div>
-                        <span className={`ml-auto text-xs font-medium px-2 py-0.5 rounded-full flex-shrink-0 ${
-                          testimonial.sector === 'care'
-                            ? 'bg-blue-100 text-blue-700'
-                            : 'bg-emerald-100 text-emerald-700'
-                        }`}>
-                          {testimonial.sector === 'care' ? 'Care' : 'Cleaning'}
-                        </span>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </motion.div>
+      {/* Testimonials from API only */}
+      {testimonials.length > 0 && (
+        <section className="py-16 md:py-20">
+          <div className="container mx-auto px-4 lg:px-8">
+            <h2 className="text-3xl font-bold text-primary mb-8">What Clients Say</h2>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+              {testimonials.slice(0, 6).map((t) => (
+                <div key={t.id} className="rounded-xl border bg-card p-6">
+                  <p className="text-sm italic text-foreground/80 mb-4">&ldquo;{t.quote}&rdquo;</p>
+                  <p className="font-semibold text-sm">{t.clientName}</p>
+                  <p className="text-xs text-muted-foreground">{t.companyName}</p>
+                </div>
               ))}
             </div>
-
-            {testimonials.length > 6 && (
-              <div className="text-center mt-12">
-                <Button asChild size="lg" variant="outline" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground">
-                  <Link href="/results">SEE ALL {testimonials.length} REVIEWS</Link>
-                </Button>
-              </div>
-            )}
           </div>
         </section>
       )}
 
+      {/* Resources + FAQ CTAs */}
+      <section className="py-16 bg-muted/40">
+        <div className="container mx-auto px-4 lg:px-8 grid md:grid-cols-2 gap-6">
+          <div className="rounded-2xl border bg-card p-8">
+            <h2 className="text-2xl font-bold text-primary mb-3">Blog &amp; Resources</h2>
+            <p className="text-muted-foreground mb-5">Practical guidance on care tendering, cleaning procurement and bid strategy.</p>
+            <Link href="/resources" className="inline-flex items-center gap-2 text-secondary font-semibold">
+              Browse resources <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+          <div className="rounded-2xl border bg-card p-8">
+            <h2 className="text-2xl font-bold text-primary mb-3">FAQs</h2>
+            <p className="text-muted-foreground mb-5">Clear answers on process, eligibility, CQC support, TUPE and pricing conversations.</p>
+            <Link href="/faqs" className="inline-flex items-center gap-2 text-secondary font-semibold">
+              Read FAQs <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* Final CTA */}
-      <section className="py-12 md:py-20 bg-primary text-primary-foreground">
-        <div className="container mx-auto px-4 lg:px-8 text-center">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeInUp}
-          >
-            <h2 className="text-3xl lg:text-4xl font-bold mb-4" data-testid="text-cta-title">
-              Ready to Win Your Next Contract?
-            </h2>
-            <p className="text-lg mb-8 text-primary-foreground/90 max-w-2xl mx-auto">
-              Book a free consultation to discuss your tendering needs. No obligation, just expert advice.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button asChild size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 font-semibold" data-testid="button-cta-book-consultation">
-                <Link href="/contact">BOOK A CONSULTATION</Link>
-              </Button>
-              <Button asChild size="lg" variant="outline" className="border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary" data-testid="button-cta-view-pricing">
-                <Link href="/pricing">VIEW PRICING</Link>
-              </Button>
-            </div>
-          </motion.div>
+      <section className="py-20 bg-primary text-primary-foreground">
+        <div className="container mx-auto px-4 lg:px-8 text-center max-w-3xl">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready for a clearer tender decision?</h2>
+          <p className="text-primary-foreground/85 text-lg mb-8">
+            Assess your tender, check readiness, or speak with {BRAND_NAME} about strategy and writing support.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <Button asChild size="lg" className="bg-secondary text-secondary-foreground hover:bg-secondary/90">
+              <Link href={CTA.assess.href}>{CTA.assess.label}</Link>
+            </Button>
+            <Button asChild size="lg" variant="outline" className="border-white/40 bg-white/10 text-white hover:bg-white/20">
+              <Link href={CTA.strategy.href}>{CTA.strategy.label}</Link>
+            </Button>
+          </div>
         </div>
       </section>
     </>

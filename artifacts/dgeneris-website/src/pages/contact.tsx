@@ -397,11 +397,21 @@ export default function Contact() {
                   <h3 className="font-semibold text-lg mb-4">Contact Information</h3>
                   <div className="space-y-4">
                     <div className="flex items-start gap-3">
-                      <Phone className="h-5 w-5 text-accent mt-0.5 flex-shrink-0" />
+                      <Phone className="h-5 w-5 text-secondary mt-0.5 flex-shrink-0" />
                       <div>
-                        <p className="font-medium text-sm">Phone</p>
-                        <p className="text-sm text-muted-foreground">07453 409673</p>
-                        <p className="text-sm text-muted-foreground">07830 766260</p>
+                        <p className="font-medium text-sm">Call</p>
+                        <a href="tel:+447453418196" className="text-sm text-secondary hover:underline block">
+                          07453 418196
+                        </a>
+                        <p className="font-medium text-sm mt-3">WhatsApp</p>
+                        <a
+                          href="https://wa.me/447453409673?text=Hello%20Dgeneris%20Bids%2C%20I%20would%20like%20help%20with%20a%20tender."
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-sm text-secondary hover:underline block"
+                        >
+                          07453 409673
+                        </a>
                       </div>
                     </div>
                     <div className="flex items-start gap-3">

@@ -20,7 +20,7 @@ export default function Terms() {
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="max-w-4xl mx-auto prose prose-lg">
-            <p>These terms and conditions govern your use of Dgeneris Bid & Tender Solutions services.</p>
+            <p>These terms and conditions govern your use of Dgeneris Bids services.</p>
 
             <h2>1. Services</h2>
             <p>We provide professional bid writing, tender support, and consultancy services as described in our proposals and service agreements. All services are subject to availability and our acceptance of the engagement.</p>

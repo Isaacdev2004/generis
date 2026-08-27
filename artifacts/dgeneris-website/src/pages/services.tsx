@@ -98,7 +98,7 @@ export default function Services() {
             className="max-w-3xl mx-auto text-center"
           >
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6" data-testid="text-services-hero-title">
-              Our Bid & Tender Services
+              Our Services
             </h1>
             <p className="text-lg text-primary-foreground/90">
               Comprehensive support across every stage of the public procurement process
@@ -170,7 +170,7 @@ export default function Services() {
               Book a free consultation and we'll recommend the right approach for your tendering goals.
             </p>
             <Button asChild size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90 font-semibold" data-testid="button-services-cta-contact">
-              <Link href="/contact">BOOK A CONSULTATION</Link>
+              <Link href="/assess-my-tender">Get Your Tender Assessed</Link>
             </Button>
           </motion.div>
         </div>

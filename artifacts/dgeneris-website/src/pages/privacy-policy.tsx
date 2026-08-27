@@ -20,7 +20,7 @@ export default function PrivacyPolicy() {
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="max-w-4xl mx-auto prose prose-lg">
-            <p>This privacy policy describes how Dgeneris Bid & Tender Solutions ("we", "us", "our") collects, uses, and protects your personal information in accordance with UK GDPR and the Data Protection Act 2018.</p>
+            <p>This privacy policy describes how Dgeneris Bids ("we", "us", "our") collects, uses, and protects your personal information in accordance with UK GDPR and the Data Protection Act 2018.</p>
 
             <h2>1. Information We Collect</h2>
             <p>We collect the following types of information:</p>

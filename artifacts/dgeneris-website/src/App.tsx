@@ -33,6 +33,18 @@ import CookiePolicy from '@/pages/cookie-policy';
 import RefundPolicy from '@/pages/refund-policy';
 import NotFound from '@/pages/not-found';
 
+import TenderDiscovery from '@/pages/services/tender-discovery';
+import TenderWriting from '@/pages/services/tender-writing';
+import BidStrategy from '@/pages/services/bid-strategy';
+import BidReview from '@/pages/services/bid-review';
+import CqcRegistrationSupport from '@/pages/services/cqc-registration-support';
+import CareSector from '@/pages/sectors/care';
+import CleaningSector from '@/pages/sectors/cleaning';
+import AssessMyTender from '@/pages/assess-my-tender';
+import TenderReadiness from '@/pages/tender-readiness';
+import RedTeamReview from '@/pages/red-team-review';
+import TenderOpportunities from '@/pages/tender-opportunities';
+
 const queryClient = new QueryClient();
 
 function AnimatedSwitch() {
@@ -55,11 +67,17 @@ function AnimatedSwitch() {
 function Router() {
   return (
     <Switch>
-      {/* Public Pages */}
       <Route path="/" component={Home} />
       <Route path="/about" component={About} />
       <Route path="/services" component={Services} />
+      <Route path="/services/tender-discovery" component={TenderDiscovery} />
+      <Route path="/services/tender-writing" component={TenderWriting} />
+      <Route path="/services/bid-strategy" component={BidStrategy} />
+      <Route path="/services/bid-review" component={BidReview} />
+      <Route path="/services/cqc-registration-support" component={CqcRegistrationSupport} />
       <Route path="/sectors" component={Sectors} />
+      <Route path="/sectors/care" component={CareSector} />
+      <Route path="/sectors/cleaning" component={CleaningSector} />
       <Route path="/results" component={Results} />
       <Route path="/how-it-works" component={HowItWorks} />
       <Route path="/pricing" component={Pricing} />
@@ -67,28 +85,27 @@ function Router() {
       <Route path="/resources/:slug" component={BlogPost} />
       <Route path="/faqs" component={FAQs} />
       <Route path="/contact" component={Contact} />
+      <Route path="/assess-my-tender" component={AssessMyTender} />
+      <Route path="/tender-readiness" component={TenderReadiness} />
+      <Route path="/red-team-review" component={RedTeamReview} />
+      <Route path="/tender-opportunities" component={TenderOpportunities} />
 
-      {/* Checkout & Payment */}
       <Route path="/checkout" component={Checkout} />
       <Route path="/payment-success" component={PaymentSuccess} />
       <Route path="/payment-cancelled" component={PaymentCancelled} />
 
-      {/* Client Portal */}
       <Route path="/portal" component={Portal} />
       <Route path="/portal/projects/:id" component={ProjectDetail} />
       <Route path="/portal/orders" component={PortalOrders} />
 
-      {/* Admin */}
       <Route path="/admin/login" component={AdminLogin} />
       <Route path="/admin" component={AdminDashboard} />
 
-      {/* Legal Pages */}
       <Route path="/privacy-policy" component={PrivacyPolicy} />
       <Route path="/terms" component={Terms} />
       <Route path="/cookie-policy" component={CookiePolicy} />
       <Route path="/refund-policy" component={RefundPolicy} />
 
-      {/* 404 */}
       <Route component={NotFound} />
     </Switch>
   );
