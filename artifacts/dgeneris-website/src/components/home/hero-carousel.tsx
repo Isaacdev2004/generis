@@ -10,7 +10,7 @@ const SLIDES = [
     id: 1,
     image: '/stock/hero.jpg',
     title: 'Win More UK Care & Cleaning Contracts',
-    body: `${BRAND_NAME} helps UK care providers, cleaning companies and SMEs identify suitable tender opportunities, assess their eligibility, develop stronger bid strategies and submit evaluator-focused tender responses.`,
+    body: `${BRAND_NAME} helps UK care providers, cleaning companies and SMEs identify suitable tender opportunities, assess eligibility, strengthen bid strategy and submit evaluator-focused responses.`,
   },
   {
     id: 2,
@@ -27,8 +27,9 @@ const SLIDES = [
   {
     id: 4,
     image: '/stock/process.jpg',
-    title: 'From Tender Assessment to Final Submission',
-    body: 'End-to-end support across discovery, qualification, strategy, writing, red-team review and submission readiness.',
+    title: 'Write. Review. Submit.',
+    body: 'From tender assessment through professional writing and red-team review to final submission readiness — end-to-end support when it matters.',
+    stages: ['Write', 'Review', 'Submit'] as string[],
   },
 ];
 
@@ -83,8 +84,8 @@ export function HeroCarousel() {
       </AnimatePresence>
       <div className="absolute inset-0 bg-gradient-to-r from-primary/92 via-primary/78 to-primary/55" />
 
-      <div className="relative container mx-auto px-4 lg:px-8 py-20 lg:py-28 min-h-[88vh] flex flex-col justify-center">
-        <p className="font-serif text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight mb-4 max-w-3xl">
+      <div className="relative container mx-auto px-4 lg:px-8 py-16 sm:py-20 lg:py-28 min-h-[88vh] flex flex-col justify-center">
+        <p className="font-serif text-2xl sm:text-3xl lg:text-4xl font-semibold tracking-tight mb-3 max-w-3xl">
           {BRAND_NAME}
         </p>
         <AnimatePresence mode="wait">
@@ -96,9 +97,26 @@ export function HeroCarousel() {
             transition={{ duration: 0.45 }}
             className="max-w-3xl"
           >
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight mb-5">
-              {slide.title}
-            </h1>
+            {'stages' in slide && slide.stages ? (
+              <div className="mb-5 flex flex-wrap items-center gap-2 sm:gap-3" aria-label="Write, Review, Submit">
+                {slide.stages.map((stage, i) => (
+                  <div key={stage} className="flex items-center gap-2 sm:gap-3">
+                    {i > 0 ? (
+                      <span className="text-secondary text-xl sm:text-2xl font-light" aria-hidden>
+                        →
+                      </span>
+                    ) : null}
+                    <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight">
+                      {stage}
+                    </h1>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight mb-5">
+                {slide.title}
+              </h1>
+            )}
             <p className="text-base sm:text-lg text-primary-foreground/90 leading-relaxed mb-8 max-w-2xl">
               {slide.body}
             </p>
